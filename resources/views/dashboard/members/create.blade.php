@@ -64,7 +64,7 @@
                                             {{ $user->gender ? ($user->gender = 'male' ? 'Laki - Laki' : 'Perempuan') : '-' }}
                                         </td>
                                         {{-- <td class="text-center align-middle">
-                                            {{ $user->created_at->format('d M Y') }}
+                                            {{ $user->created_at->translatedFormat('d M Y') }}
                                         </td> --}}
                                         <td class="text-center align-middle">
                                             <button type="button" class="btn btn-success btn-select-user mb-1"

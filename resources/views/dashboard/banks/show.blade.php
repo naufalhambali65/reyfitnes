@@ -61,12 +61,12 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <div class="small text-muted">Dibuat Pada</div>
-                            <div class="fw-semibold">{{ $bank->created_at->format('d M Y') }}</div>
+                            <div class="fw-semibold">{{ $bank->created_at->translatedFormat('d M Y') }}</div>
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <div class="small text-muted">Terakhir Diupdate</div>
-                            <div class="fw-semibold">{{ $bank->updated_at->format('d M Y') }}</div>
+                            <div class="fw-semibold">{{ $bank->updated_at->translatedFormat('d M Y') }}</div>
                         </div>
 
                         <div class="col-md-4 mb-3">

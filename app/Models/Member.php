@@ -39,12 +39,24 @@ class Member extends Model
     }
 
     public function getActiveMembershipNameAttribute()
-{
-    return $this->activeMembership?->membership->name;
-}
+    {
+        return $this->activeMembership?->membership->name;
+    }
 
     public function classBookings(): HasMany
     {
         return $this->hasMany(ClassBooking::class);
+    }
+
+        public function payments()
+    {
+        return $this->hasManyThrough(
+            Payment::class,
+            MemberMembership::class,
+            'member_id',
+            'id',
+            'id',
+            'payment_id'
+        );
     }
 }

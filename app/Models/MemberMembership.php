@@ -12,6 +12,10 @@ class MemberMembership extends Model
     use Blameable;
     protected $guarded = ['id'];
     protected $with = ['member', 'membership', 'payment', 'user'];
+    protected $casts = [
+    'start_date' => 'date',
+    'end_date'   => 'date',
+];
 
     public function attendances(): HasMany
     {

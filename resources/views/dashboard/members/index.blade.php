@@ -36,36 +36,76 @@
                             <tbody>
                                 @foreach ($members as $member)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="text-center align-middle">{{ $member->user->name }}
-                                            <br> {{ $member->user->email }}
+                                        <td class="text-center align-middle fw-semibold">
+                                            {{ $loop->iteration }}
                                         </td>
-                                        <td class="text-center align-middle">{{ $member->user->phone }}
+
+                                        <td class="align-middle">
+                                            <span class="text-capitalize fw-semibold">{{ $member->user->name }}</span>
+                                            <br>
+                                            <span class="text-lowercase text-muted">{{ $member->user->email }}</span>
                                         </td>
-                                        <td class="text-center align-middle">
+
+                                        <td class="text-center align-middle fw-semibold">
+                                            {{ $member->user->phone }}
+                                        </td>
+
+                                        <td class="text-center align-middle fw-semibold">
                                             {{ $member->latestMembership->membership->name }}
                                         </td>
+
                                         <td class="text-center align-middle">
-                                            {{ $member->latestMembership->status }}
+                                            @if ($member->latestMembership->status == 'active')
+                                                <span class="badge px-3 py-2 bg-success text-white">
+                                                    Aktif
+                                                </span>
+                                            @elseif ($member->latestMembership->status == 'expired')
+                                                <span class="badge px-3 py-2 bg-danger text-white">
+                                                    Kadaluarsa
+                                                </span>
+                                            @else
+                                                <span class="badge px-3 py-2 bg-secondary text-white">
+                                                    Tidak Aktif
+                                                </span>
+                                            @endif
                                         </td>
-                                        <td class="text-center align-middle">{{ $member->status }}
-                                        </td>
+
                                         <td class="text-center align-middle">
-                                            {{ $member->created_at->format('d M Y') }}
+                                            @if ($member->status == 'active')
+                                                <span class="badge px-3 py-2 bg-success text-white">
+                                                    Aktif
+                                                </span>
+                                            @elseif ($member->status == 'inactive')
+                                                <span class="badge px-3 py-2 bg-secondary text-white">
+                                                    Tidak Aktif
+                                                </span>
+                                            @else
+                                                <span class="badge px-3 py-2 bg-danger text-white">
+                                                    Diblokir
+                                                </span>
+                                            @endif
                                         </td>
+
+                                        <td class="text-center align-middle fw-semibold">
+                                            <i class="fas fa-calendar-alt me-1 text-secondary"></i>
+                                            {{ $member->created_at->translatedFormat('d M Y') }}
+                                        </td>
+
                                         <td class="text-center align-middle d-flex justify-content-center gap-2">
                                             <a href="{{ route('members.show', $member->id) }}">
                                                 <button class="btn btn-success">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
+
                                             <a href="{{ route('members.edit', $member->id) }}">
                                                 <button class="btn btn-primary">
-                                                    <i class="fas fa-pencil-alt "></i>
+                                                    <i class="fas fa-pencil-alt"></i>
                                                 </button>
                                             </a>
+
                                             <form action="{{ route('members.destroy', $member->id) }}" method="post"
-                                                class="d-inline ">
+                                                class="d-inline">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="button" class="btn btn-danger border-0 btn-hapus">

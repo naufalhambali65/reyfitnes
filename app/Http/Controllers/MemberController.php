@@ -61,8 +61,46 @@ class MemberController extends Controller implements HasMiddleware
      */
     public function show(Member $member)
     {
-        //
+        $title = 'Detail Anggota - ' . $member->user->name;
+        $user = $member->user; // relasi: Member belongsTo User
+
+        // Membership aktif (jika ada)
+        $activeMembership = $member->memberMemberships()->where('status', 'active')
+            ->whereDate('end_date', '>=', now())
+            ->orderByDesc('end_date')
+            ->first();
+
+        // Riwayat membership
+        $historyMemberships = $member->memberMemberships()
+            ->orderByDesc('created_at')
+            ->get();
+
+        // dd($historyMemberships);
+
+        // Riwayat absensi
+        $attendances = $member->attendances()
+            ->orderByDesc('check_in_at')
+            ->get();
+
+        // Riwayat pembayaran
+        // $payments = $historyMemberships->payment->orderByDesc('created_at')
+        //     ->get();
+        // dd($payments);
+
+        // $member->payments()
+        //     ->orderByDesc('created_at')
+        //     ->get();
+
+        return view('dashboard.members.show', compact(
+            'title',
+            'member',
+            'user',
+            'activeMembership',
+            'historyMemberships',
+            'attendances'));
+
     }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -84,7 +84,8 @@
                                         <td class="text-center align-middle fw-semibold">{{ $loop->iteration }}</td>
 
                                         <td class="align-middle">
-                                            <span class="text-capitalize fw-semibold">{{ $payment->user->name }} </span> |
+                                            <span class="text-capitalize fw-semibold">{{ $payment->user->name }} </span>
+                                            <br>
                                             <span class="text-lowercase fw-semibold">{{ $payment->user->email }}</span>
                                         </td>
 
@@ -111,7 +112,7 @@
 
                                         <td class="text-center align-middle fw-semibold">
                                             <i class="fas fa-calendar-alt me-1 text-secondary"></i>
-                                            {{ $payment->updated_at->format('d M Y') }}
+                                            {{ $payment->updated_at->translatedFormat('d M Y') }}
                                         </td>
 
                                         <td class="text-center align-middle d-flex justify-content-center gap-2">

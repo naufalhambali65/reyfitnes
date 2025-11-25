@@ -78,11 +78,11 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="small text-muted">Dibuat Pada</div>
-                            <div class="fw-semibold">{{ $membership->created_at->format('d M Y') }}</div>
+                            <div class="fw-semibold">{{ $membership->created_at->translatedFormat('d M Y') }}</div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="small text-muted">Terakhir diupdate</div>
-                            <div class="fw-semibold">{{ $membership->updated_at->format('d M Y') }}</div>
+                            <div class="fw-semibold">{{ $membership->updated_at->translatedFormat('d M Y') }}</div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <div class="small text-muted">Status</div>
@@ -108,13 +108,13 @@
 
             {{-- Features & Class --}}
             <div class="card shadow-sm mb-3">
-                <div class="row g-0 p-3">
+                <div class="row g-0">
 
                     {{-- Benefit / Fitur --}}
                     <div class="col-md-6">
                         <div class="card-body">
                             <h5 class="fw-bold mb-3">
-                                <i class="fas fa-star me-1 text-warning"></i>
+                                <i class="fas fa-star me-1"></i>
                                 Benefit / Fitur
                             </h5>
 
@@ -130,7 +130,7 @@
                             <div class="card-body">
 
                                 <h5 class="fw-bold mb-3">
-                                    <i class="fas fa-chalkboard-teacher me-2 text-warning"></i>
+                                    <i class="fas fa-chalkboard-teacher me-2"></i>
                                     Akses Kelas
                                 </h5>
 
@@ -170,7 +170,7 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <h2 class="card-title mb-0 fw-bold">
-                        <i class="fas fa-table me-2 text-primary"></i> Daftar Pembeli Paket
+                        <i class="fas fa-table me-2"></i> Daftar Pembeli Paket
                     </h2>
                 </div>
                 <!-- /.card-header -->
@@ -196,9 +196,10 @@
                                         <td class="text-center align-middle">{{ $member->user->email }}</td>
                                         <td class="text-center align-middle">{{ $member->user->phone ?? '-' }}</td>
                                         <td class="align-middle text-center">
-                                            {{ \Carbon\Carbon::parse($member->start_date)->format('d M Y') }}</td>
+                                            {{ \Carbon\Carbon::parse($member->start_date)->translatedFormat('d M Y') }}
+                                        </td>
                                         <td class="align-middle text-center">
-                                            {{ \Carbon\Carbon::parse($member->end_date)->format('d M Y') }}</td>
+                                            {{ \Carbon\Carbon::parse($member->end_date)->translatedFormat('d M Y') }}</td>
                                         <td class="align-middle text-center">
                                             <span
                                                 class="badge {{ $member->status == 'active' ? 'bg-success' : ($member->status == 'pending' ? 'bg-warning text-dark' : ($member->status == 'expired' ? 'bg-secondary' : 'bg-danger')) }}">
