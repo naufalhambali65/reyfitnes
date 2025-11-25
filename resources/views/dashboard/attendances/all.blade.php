@@ -5,11 +5,11 @@
             <div class="card">
                 <div class="card-header d-flex align-items-center">
                     <h2 class="card-title mb-0 fw-bold">
-                        <i class="fas fa-tags me-2 text-primary"></i> Semua Paket Membership
+                        <i class="fas fa-user-check me-2 text-primary"></i>Daftar Semua Kehadiran
                     </h2>
                     <div class="ms-auto">
-                        <a href="{{ route('memberships.create') }}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-plus-circle me-1"></i> Tambah Paket
+                        <a href="{{ route('attendances.index') }}" class="btn btn-sm btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Kembali
                         </a>
                     </div>
                 </div>
@@ -20,60 +20,48 @@
                             <thead>
                                 <tr class="text-center align-middle">
                                     <th>No</th>
-                                    <th>Nama Paket</th>
-                                    <th>Durasi</th>
-                                    <th>Harga</th>
+                                    <th>Nama</th>
+                                    <th>Paket Membership</th>
+                                    <th>Waktu Kehadiran</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($memberships as $membership)
+                                @foreach ($attendances as $attendance)
                                     <tr>
-
-                                        {{-- No --}}
+                                        <td class="text-center align-middle fw-semibold">{{ $loop->iteration }}</td>
+                                        <td class="align-middle fw-semibold text-capitalize">
+                                            {{ $attendance->membership->user->name }}</td>
+                                        <td class="text-center align-middle fw-semibold text-primary">
+                                            {{ $attendance->membership->membership->name }}</td>
                                         <td class="text-center align-middle fw-semibold">
-                                            {{ $loop->iteration }}
+                                            <i class="fas fa-calendar-alt me-1 text-secondary"></i>
+                                            {{ $attendance->check_in_at?->format('d M Y H:i') }}
                                         </td>
-
-                                        {{-- Nama Membership --}}
-                                        <td class="align-middle fw-semibold">
-                                            {{ $membership->name }}
-                                        </td>
-
-                                        {{-- Durasi --}}
-                                        <td class="text-center align-middle text-primary fw-semibold">
-                                            {{ $membership->duration_days }} Hari
-                                        </td>
-
-                                        {{-- Harga --}}
-                                        <td class="text-center align-middle fw-bold text-success">
-                                            {{ $membership->price_formatted }}
-                                        </td>
-
-                                        {{-- Status --}}
                                         <td class="text-center align-middle">
-                                            <span
-                                                class="badge px-3 py-2
-            {{ $membership->status == 'available' ? 'bg-success text-white' : 'bg-danger text-white' }}">
-                                                {{ $membership->status == 'available' ? 'Tersedia' : 'Tak Tersedia' }}
-                                            </span>
+                                            @if ($attendance->status == 'late')
+                                                <span class="badge px-3 py-2 bg-warning text-white">Terlambat</span>
+                                            @elseif ($attendance->status == 'present')
+                                                <span class="badge  px-3 py-2 bg-success text-white">Hadir</span>
+                                            @else
+                                                <span class="badge px-3 py-2 bg-danger text-white">Tidak Hadir</span>
+                                            @endif
                                         </td>
-
-                                        {{-- Action --}}
-                                        <td class="text-center d-flex justify-content-center gap-2">
-                                            <a href="{{ route('memberships.show', $membership->slug) }}">
+                                        <td
+                                            class="text-center align-middle fw-semibold d-flex justify-content-center gap-2">
+                                            <a href="{{ route('attendances.show', $attendance->id) }}">
                                                 <button class="btn btn-success">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
-                                            <a href="{{ route('memberships.edit', $membership->slug) }}">
+                                            <a href="{{ route('attendances.edit', $attendance->id) }}">
                                                 <button class="btn btn-primary">
                                                     <i class="fas fa-pencil-alt "></i>
                                                 </button>
                                             </a>
-                                            <form action="{{ route('memberships.destroy', $membership->slug) }}"
-                                                method="post" class="d-inline">
+                                            <form action="{{ route('attendances.destroy', $attendance->id) }}"
+                                                method="post" class="d-inline ">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="button" class="btn btn-danger border-0 btn-hapus">
@@ -81,7 +69,6 @@
                                                 </button>
                                             </form>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -103,7 +90,7 @@
                 lengthChange: false,
                 autoWidth: false,
                 language: {
-                    emptyTable: '<i class="fas fa-info-circle me-1"></i> Anda belum memiliki paket membership.'
+                    emptyTable: '<i class="fas fa-info-circle me-1"></i> Tidak ada riwayat kehadiran.'
                 },
                 buttons: $.map(exportButtons, function(btn) {
                     return {
@@ -111,7 +98,7 @@
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4]
                         },
-                        title: 'Daftar Paket Membership | REY FITNES'
+                        title: 'Daftar Kehadiran | REY FITNES'
                     };
                 })
             }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');

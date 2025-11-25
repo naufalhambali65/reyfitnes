@@ -13,7 +13,11 @@ class Payment extends Model
     use Blameable;
 
     protected $guarded = ['id'];
-    protected $with = ['items', 'bank', 'user'];
+    protected $with = ['bank', 'user'];
+    protected $casts = [
+    'amount' => 'integer',
+    ];
+
 
     public function items(): HasMany
     {

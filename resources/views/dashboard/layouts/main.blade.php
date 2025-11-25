@@ -173,6 +173,8 @@
     <script src="/dashboard_assets/plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
     <script src="/dashboard_assets/plugins/toastr/toastr.min.js"></script>
+    {{-- HTML 5 Qr Code --}}
+    <script src="/dashboard_assets/dist/js/html5-qrcode.min.js"></script>
 
 
     <!-- DataTables  & Plugins -->
@@ -218,13 +220,34 @@
 
             Swal.fire({
                 title: 'Logout?',
-                text: "Are you sure you want to logout?",
+                text: "Yakin akan logout?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, logout',
-                cancelButtonText: 'Cancel'
+                confirmButtonText: 'Ya, logout!',
+                cancelButtonText: 'Batalkan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+
+        $('.btn-hapus').on('click', function(e) {
+            e.preventDefault();
+
+            const form = $(this).closest('form');
+
+            Swal.fire({
+                title: 'Apakah Anda Yakin?',
+                text: "Data ini akan terhapus secara permanen!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batalkan'
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();

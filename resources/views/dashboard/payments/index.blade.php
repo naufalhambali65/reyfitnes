@@ -81,44 +81,62 @@
                             <tbody>
                                 @foreach ($payments as $payment)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="text-center align-middle">{{ $payment->name }}</td>
-                                        <td class="text-center align-middle">{{ $payment->amount }}</td>
-                                        <td class="text-center align-middle">
-                                            {{ $payment->payment_method == 'transfer' ? 'Transfer Bank' : 'Qris' }}
+                                        <td class="text-center align-middle fw-semibold">{{ $loop->iteration }}</td>
+
+                                        <td class="align-middle">
+                                            <span class="text-capitalize fw-semibold">{{ $payment->user->name }} </span> |
+                                            <span class="text-lowercase fw-semibold">{{ $payment->user->email }}</span>
                                         </td>
+
+                                        <td class="text-center align-middle fw-bold text-success">
+                                            Rp {{ number_format($payment->amount, 2, ',', '.') }}
+                                        </td>
+
+                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge px-3 py-2 {{ $payment->payment_method == 'transfer' ? 'bg-primary text-white' : 'bg-cyan text-white' }} ">
+                                                {{ $payment->payment_method == 'transfer' ? 'Transfer Bank' : 'Qris' }}
+                                            </span>
+                                        </td>
+
                                         <td class="text-center align-middle">
                                             @if ($payment->status == 'pending')
-                                                Tertunda
+                                                <span class="badge px-3 py-2 bg-warning text-white">Tertunda</span>
                                             @elseif ($payment->status == 'completed')
-                                                Selesai
+                                                <span class="badge  px-3 py-2 bg-success text-white">Selesai</span>
                                             @else
-                                                Gagal
+                                                <span class="badge px-3 py-2 bg-danger text-white">Gagal</span>
                                             @endif
                                         </td>
-                                        <td class="text-center align-middle">
+
+                                        <td class="text-center align-middle fw-semibold">
+                                            <i class="fas fa-calendar-alt me-1 text-secondary"></i>
                                             {{ $payment->updated_at->format('d M Y') }}
                                         </td>
-                                        <td class="text-center align-middle">
-                                            <a href="{{ route('payments.show', $payment->slug) }}">
+
+                                        <td class="text-center align-middle d-flex justify-content-center gap-2">
+                                            <a href="{{ route('payments.show', $payment->id) }}">
                                                 <button class="btn btn-success">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
-                                            <a href="{{ route('payments.edit', $payment->slug) }}">
+                                            <a href="{{ route('payments.edit', $payment->id) }}">
                                                 <button class="btn btn-primary">
                                                     <i class="fas fa-pencil-alt "></i>
                                                 </button>
                                             </a>
-                                            <form action="{{ route('payments.destroy', $payment->slug) }}" method="post"
+                                            <form action="{{ route('payments.destroy', $payment->id) }}" method="post"
                                                 class="d-inline ">
                                                 @method('delete')
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger border-0 btn-hapus">
+                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
+
+
                                         </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -152,27 +170,6 @@
                     };
                 })
             }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
-        });
-
-        $('.btn-hapus').on('click', function(e) {
-            e.preventDefault();
-
-            const form = $(this).closest('form');
-
-            Swal.fire({
-                title: 'Apakah Anda Yakin?',
-                text: "Data ini akan terhapus secara permanen!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batalkan'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
         });
     </script>
 @endsection

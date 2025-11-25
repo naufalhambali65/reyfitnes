@@ -19,6 +19,11 @@ class Member extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function attendances(): HasMany
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
     public function activeMembership(): HasOne
     {
         return $this->hasOne(MemberMembership::class)->where('status', 'active');

@@ -51,9 +51,9 @@
                                         <td class="text-center align-middle">{{ $member->status }}
                                         </td>
                                         <td class="text-center align-middle">
-                                            >{{ $member->created_at->format('d M Y') }}
+                                            {{ $member->created_at->format('d M Y') }}
                                         </td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center align-middle d-flex justify-content-center gap-2">
                                             <a href="{{ route('members.show', $member->id) }}">
                                                 <button class="btn btn-success">
                                                     <i class="fas fa-eye"></i>
@@ -64,11 +64,11 @@
                                                     <i class="fas fa-pencil-alt "></i>
                                                 </button>
                                             </a>
-                                            <form action="{{ route('members.destroy', $team->id) }}" method="post"
+                                            <form action="{{ route('members.destroy', $member->id) }}" method="post"
                                                 class="d-inline ">
                                                 @method('delete')
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger border-0 btn-hapus">
+                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
@@ -297,27 +297,6 @@
                     };
                 })
             }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
-        });
-
-        $('.btn-hapus').on('click', function(e) {
-            e.preventDefault();
-
-            const form = $(this).closest('form');
-
-            Swal.fire({
-                title: 'Apakah Anda Yakin?',
-                text: "Data ini akan terhapus secara permanen!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batalkan'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
         });
     </script>
 @endsection

@@ -63,15 +63,6 @@ class MembershipController extends Controller implements HasMiddleware
     /**
      * Display the specified resource.
      */
-    // public function show(Membership $membership)
-    // {
-    //     $title = 'Detail Paket Membership';
-    //     $totalCustomer = MemberMembership::where('membership_id', $membership->id)->count();
-    //     $totalActiveCustomer = MemberMembership::where('membership_id', $membership->id)->where('status', 'active')->count();
-
-
-    //     return view('dashboard.memberships.show', compact('title', 'membership'));
-    // }
 
     public function show(Membership $membership)
     {

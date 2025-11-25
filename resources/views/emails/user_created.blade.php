@@ -11,4 +11,5 @@
 
 <p>Silakan login menggunakan detail di atas.</p>
 
-<p>Terima kasih,<br>Rey Fitness</p>
+<br><br>
+<p>Terima kasih,<br><strong>Rey Fitness</strong></p>

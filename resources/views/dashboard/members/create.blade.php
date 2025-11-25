@@ -95,7 +95,7 @@
                         <div class="ms-auto">
                             <a href="{{ route('members.index') }}" class="btn btn-sm btn-secondary"><i
                                     class="fas fa-arrow-left"></i> Kembali</a>
-                            <button type="submit" class="btn btn-sm btn-success ml-2" id="submitBtn" disabled><i
+                            <button type="button" class="btn btn-sm btn-success btn-bayar ml-2" id="submitBtn" disabled><i
                                     class="fas fa-credit-card"></i> Bayar</button>
                         </div>
                     </div>
@@ -202,13 +202,16 @@
                         <div class="row p-3">
                             @foreach ($memberships as $membership)
                                 <div class="col-md-4 mb-4">
-                                    <div class="card membership-card shadow-sm" data-slug="{{ $membership->slug }}">
+                                    <div class="card membership-card shadow-sm" data-slug="{{ $membership->slug }}"
+                                        data-price="{{ $membership->price }}">
                                         <div class="card-body">
 
                                             <h5 class="card-title fw-bold text-primary">{{ $membership->name }}</h5>
-                                            <p class="card-text text-muted mb-1">Harga: {{ $membership->price_formatted }}
+                                            <p class="card-text text-muted mb-1">Harga:
+                                                {{ $membership->price_formatted }}
                                             </p>
-                                            <p class="card-text text-muted mb-1">Durasi: {{ $membership->duration_days }}
+                                            <p class="card-text text-muted mb-1">Durasi:
+                                                {{ $membership->duration_days }}
                                                 Hari
                                             </p>
                                             <p class="card-text small">{!! $membership->description !!}</p>
@@ -223,7 +226,8 @@
                                                 <div>
                                                     <button type="button"
                                                         class="btn btn-primary btn-sm choose-package-btn"
-                                                        onclick="choosePackage('{{ $membership->slug }}', this)" disabled>
+                                                        onclick="choosePackage('{{ $membership->slug }}', this, {{ $membership->id }})"
+                                                        data-id="{{ $membership->id }}" disabled>
                                                         Pilih
                                                     </button>
 
@@ -243,8 +247,53 @@
 
                             <!-- input hidden -->
                             <input type="hidden" name="membership_slug" id="membership_slug">
+                            <input type="hidden" name="membership_id" id="membership_id">
                         </div>
+                        <div class="my-4 border-top border-2 border-dashed"></div>
 
+                        <h2>Metode Transaksi :</h2>
+
+                        <div class="row p-3">
+
+                            {{-- Select metode transaksi --}}
+                            <div class="col-md-6 mb-3">
+                                <label for="payment_method" class="form-label">Metode Transaksi</label>
+                                <select name="payment_method" id="payment_method" class="form-control" disabled>
+                                    <option value="">-- Pilih Metode --</option>
+                                    <option value="transfer">Transfer Bank</option>
+                                    <option value="qris">QRIS</option>
+                                </select>
+                            </div>
+
+                            {{-- Bank List --}}
+                            <div class="col-md-6 mb-3 d-none" id="bankSection">
+                                <label for="bank_id" class="form-label">Pilih Bank</label>
+                                <select name="bank_id" id="bank_id" class="form-control">
+                                    <option value="">-- Pilih Bank --</option>
+                                    @foreach ($banks as $bank)
+                                        <option value="{{ $bank->id }}">
+                                            {{ $bank->display_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            {{-- Total Harga --}}
+                            <div class="col-md-12 mb-3 d-none" id="totalPriceSection">
+                                <label class="form-label fw-bold">Total Harga</label>
+                                <div class="p-3 bg-light border rounded">
+                                    <span id="total_price_text" class="fs-5 fw-bold">Rp 0</span>
+                                </div>
+                                <input type="hidden" name="amount" id="amount">
+                            </div>
+
+                            {{-- Notes --}}
+                            <div class="col-md-12 mb-3 d-none" id="notesSection">
+                                <label for="notes" class="form-label">Catatan (Opsional)</label>
+                                <textarea name="notes" id="notes" rows="3" class="form-control"></textarea>
+                            </div>
+
+                        </div>
 
                     </div>
                 </form>
@@ -305,6 +354,27 @@
                 })
             }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
         });
+
+        $('.btn-bayar').on('click', function(e) {
+            e.preventDefault();
+
+            const form = $(this).closest('form');
+
+            Swal.fire({
+                title: 'Apakah Anda Yakin?',
+                text: "Pastikan data sudah benar semua!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Bayar!',
+                cancelButtonText: 'Batalkan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
     </script>
     <script>
         function previewImage() {
@@ -337,12 +407,14 @@
                 input.disabled = false;
             });
 
+            document.getElementById('payment_method').disabled = false;
+
             const user_id = user.id;
 
             const form = document.getElementById('userForm');
             form.setAttribute(
                 'action',
-                "{{ route('users.update', ':id') }}".replace(':id', user_id)
+                "{{ route('members.payment', ':id') }}".replace(':id', user_id)
             );
 
             // Tampilkan box user terpilih
@@ -368,6 +440,12 @@
 
         // Tombol Reset Pilihan
         $('#resetSelection').on('click', function() {
+            document.getElementById('payment_method').disabled = true;
+            document.getElementById('payment_method').value = "";
+            document.getElementById('bank_id').value = "";
+            document.getElementById('bankSection').classList.add('d-none');
+            document.getElementById('notesSection').classList.add('d-none');
+
             document.querySelectorAll('.form-control').forEach(input => {
                 input.disabled = true;
             });
@@ -431,8 +509,6 @@
         function showMembershipDetail(id) {
             const m = memberships.find(item => item.id === id);
 
-            console.log(m);
-
             document.getElementById('detail_name').textContent = m.name;
             document.getElementById('price').textContent = formatRupiahWithComma(m.price);
             document.getElementById('duration_days').textContent = `${m.duration_days} Hari`;
@@ -449,9 +525,20 @@
                 '<li>Tidak ada kelas</li>';
         }
 
-        function choosePackage(slug, btn) {
+        function choosePackage(slug, btn, id) {
             document.getElementById('membership_slug').value = slug;
+            document.getElementById('membership_id').value = id;
             document.getElementById("submitBtn").disabled = false;
+
+            // Ambil harga dari card
+            const selectedCard = document.querySelector(`.membership-card[data-slug="${slug}"]`);
+            const price = parseFloat(selectedCard.dataset.price);
+
+
+            // Tampilkan total harga
+            document.getElementById('totalPriceSection').classList.remove('d-none');
+            document.getElementById('total_price_text').textContent = formatRupiahWithComma(price);
+            document.getElementById('amount').value = price;
 
             // Disable semua card lain
             document.querySelectorAll('.membership-card').forEach(card => {
@@ -479,7 +566,13 @@
 
         function cancelPackage(slug) {
             document.getElementById('membership_slug').value = "";
+            document.getElementById('membership_id').value = '';
             document.getElementById("submitBtn").disabled = true;
+
+            // Hapus Total Harga
+            document.getElementById('totalPriceSection').classList.add('d-none');
+            document.getElementById('total_price_text').textContent = '';
+            document.getElementById('amount').value = '';
 
             // Enable semua card
             document.querySelectorAll('.membership-card').forEach(card => {
@@ -499,5 +592,26 @@
                 btn.classList.add("d-none");
             });
         }
+    </script>
+    {{-- script bank section --}}
+    <script>
+        const paymentMethod = document.getElementById("payment_method");
+        const bankSection = document.getElementById("bankSection");
+        const notesSection = document.getElementById("notesSection");
+
+        paymentMethod.addEventListener("change", function() {
+            const method = this.value;
+
+            if (method === "transfer") {
+                bankSection.classList.remove("d-none");
+                notesSection.classList.remove("d-none");
+            } else if (method === "qris") {
+                bankSection.classList.add("d-none");
+                notesSection.classList.remove("d-none");
+            } else {
+                bankSection.classList.add("d-none");
+                notesSection.classList.add("d-none");
+            }
+        });
     </script>
 @endsection

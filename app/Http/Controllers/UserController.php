@@ -55,7 +55,7 @@ class UserController extends Controller implements HasMiddleware
         $validatedData['password'] = bcrypt($validatedData['password']);
 
         if ($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('user-profile-image/', 'public');
+            $validatedData['image'] = $request->file('image')->store('user-profile-image', 'public');
         }
 
         $user = User::create($validatedData);

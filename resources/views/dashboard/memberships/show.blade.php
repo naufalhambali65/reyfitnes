@@ -202,7 +202,7 @@
                                         <td class="align-middle text-center">
                                             <span
                                                 class="badge {{ $member->status == 'active' ? 'bg-success' : ($member->status == 'pending' ? 'bg-warning text-dark' : ($member->status == 'expired' ? 'bg-secondary' : 'bg-danger')) }}">
-                                                {{ ucfirst($member->status) }}
+                                                {{ ucfirst($member->status = 'active' ? 'Aktif' : 'Tidak Aktif') }}
                                             </span>
                                         </td>
                                     </tr>

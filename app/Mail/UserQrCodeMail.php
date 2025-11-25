@@ -5,24 +5,25 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserCreatedMail extends Mailable
+class UserQrCodeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
-    public $rawPassword;
+    public $qrPath;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $rawPassword)
+    public function __construct($user, $qrPath)
     {
         $this->user = $user;
-        $this->rawPassword =  $rawPassword;
+        $this->qrPath = $qrPath;
     }
 
     /**
@@ -31,7 +32,7 @@ class UserCreatedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Akun Anda Berhasil Dibuat! | Rey Fitnes',
+            subject: 'Qr Code Keanggotaan Anda! | Rey Fitnes',
         );
     }
 
@@ -41,10 +42,10 @@ class UserCreatedMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.user_created',
+            view: 'emails.user_qr',
             with: [
                 'user' => $this->user,
-                'rawPassword' => $this->rawPassword
+                'qrPath' => $this->qrPath,
             ]
         );
     }
@@ -56,6 +57,10 @@ class UserCreatedMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return [
+            Attachment::fromPath(storage_path('app/public/' . $this->qrPath))
+                ->as('membership-qr.png')
+                ->withMime('image/png'),
+        ];
     }
 }

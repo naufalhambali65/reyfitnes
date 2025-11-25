@@ -15,7 +15,7 @@ class Membership extends Model
 
     protected $casts = [
     'price' => 'integer',
-];
+    ];
 
     public function getRouteKeyName()
     {

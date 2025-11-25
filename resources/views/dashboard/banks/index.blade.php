@@ -30,13 +30,21 @@
                             <tbody>
                                 @foreach ($banks as $bank)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="text-center align-middle">{{ $bank->name }}</td>
-                                        <td class="text-center align-middle">{{ $bank->account_number }}</td>
-                                        <td class="text-center align-middle">{{ $bank->account_holder_name }}</td>
+                                        <td class="text-center align-middle fw-semibold">{{ $loop->iteration }}</td>
+                                        <td class="align-middle fw-semibold text-capitalize">{{ $bank->name }}</td>
+                                        <td class="text-center align-middle fw-semibold text-primary">
+                                            {{ $bank->account_number }}</td>
+                                        <td class="text-center align-middle fw-semibold text-capitalize text-success">
+                                            {{ $bank->account_holder_name }}
+                                        </td>
                                         <td class="text-center align-middle">
-                                            {{ $bank->status == 'active' ? 'Aktif' : 'Tidak Aktif' }}</td>
-                                        <td class="text-center align-middle">
+                                            <span
+                                                class="badge px-3 py-2 {{ $bank->status == 'active' ? 'bg-success text-white' : 'bg-cyan text-white' }} ">
+                                                {{ $bank->status == 'active' ? 'Aktif' : 'Tidak Aktif' }}
+                                            </span>
+                                        </td>
+                                        <td
+                                            class="text-center align-middle fw-semibold d-flex justify-content-center gap-2">
                                             <a href="{{ route('banks.show', $bank->slug) }}">
                                                 <button class="btn btn-success">
                                                     <i class="fas fa-eye"></i>
@@ -51,7 +59,7 @@
                                                 class="d-inline ">
                                                 @method('delete')
                                                 @csrf
-                                                <button type="submit" class="btn btn-danger border-0 btn-hapus">
+                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
@@ -89,27 +97,6 @@
                     };
                 })
             }).buttons().container().appendTo('#dataTable_wrapper .col-md-6:eq(0)');
-        });
-
-        $('.btn-hapus').on('click', function(e) {
-            e.preventDefault();
-
-            const form = $(this).closest('form');
-
-            Swal.fire({
-                title: 'Apakah Anda Yakin?',
-                text: "Data ini akan terhapus secara permanen!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batalkan'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
-            });
         });
     </script>
 @endsection
