@@ -27,7 +27,7 @@
                                     <th>Paket Membership</th>
                                     <th>Waktu Kehadiran</th>
                                     <th>Status</th>
-                                    <th>Aksi</th>
+                                    {{-- <th>Aksi</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,7 +51,7 @@
                                                 <span class="badge px-3 py-2 bg-danger text-white">Tidak Hadir</span>
                                             @endif
                                         </td>
-                                        <td
+                                        {{-- <td
                                             class="text-center align-middle fw-semibold d-flex justify-content-center gap-2">
                                             <a href="{{ route('attendances.show', $attendance->id) }}">
                                                 <button class="btn btn-success">
@@ -71,7 +71,7 @@
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
                                             </form>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
                             </tbody>

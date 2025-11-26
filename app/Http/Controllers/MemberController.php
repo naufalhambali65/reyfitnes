@@ -61,8 +61,11 @@ class MemberController extends Controller implements HasMiddleware
      */
     public function show(Member $member)
     {
-        $title = 'Detail Anggota - ' . $member->user->name;
+        $title = 'Detail Anggota';
         $user = $member->user; // relasi: Member belongsTo User
+
+        $memberships = Membership::all();
+        $banks = Bank::all();
 
         // Membership aktif (jika ada)
         $activeMembership = $member->memberMemberships()->where('status', 'active')
@@ -75,21 +78,11 @@ class MemberController extends Controller implements HasMiddleware
             ->orderByDesc('created_at')
             ->get();
 
-        // dd($historyMemberships);
 
         // Riwayat absensi
         $attendances = $member->attendances()
             ->orderByDesc('check_in_at')
             ->get();
-
-        // Riwayat pembayaran
-        // $payments = $historyMemberships->payment->orderByDesc('created_at')
-        //     ->get();
-        // dd($payments);
-
-        // $member->payments()
-        //     ->orderByDesc('created_at')
-        //     ->get();
 
         return view('dashboard.members.show', compact(
             'title',
@@ -97,9 +90,21 @@ class MemberController extends Controller implements HasMiddleware
             'user',
             'activeMembership',
             'historyMemberships',
-            'attendances'));
+            'attendances',
+            'memberships',
+            'banks'
+        ));
 
     }
+
+    public function toggleStatus(Member $member)
+    {
+        $member->status = $member->status === 'active' ? 'inactive' : 'active';
+        $member->save();
+
+        return back()->with('success', 'Status berhasil diubah!');
+    }
+
 
 
     /**
@@ -187,6 +192,40 @@ class MemberController extends Controller implements HasMiddleware
             'status' => 'pending',
         ];
 
+        MemberMembership::create($memberMembershipData);
+
+        return redirect()->route('payments.show', $payment->id)->with('success', 'Pembayaran dibuat, harap segera diselesaikan!');
+    }
+
+    // Controller saat member mau tambah paket membership
+    public function addPayment(Request $request, Member $member)
+    {
+        $validatedPayment = $request->validate([
+            'bank_id' => 'nullable',
+            'amount'=> 'required',
+            'payment_method' => 'required|in:transfer,qris',
+            'status' => 'nullable|in:pending,completed,failed',
+            'notes' => 'string|nullable'
+        ]);
+        $membership = Membership::where('slug', $request->membership_slug)->first();
+
+        $validatedPayment['user_id'] = $member->user_id;
+        $payment = Payment::create($validatedPayment);
+
+        $paymentItem = new PaymentItem();
+        $paymentItem->payment_id = $payment->id;
+        $paymentItem->quantity = 1;
+        $paymentItem->price = $validatedPayment['amount'];
+        $paymentItem->subtotal = $paymentItem->price * $paymentItem->quantity;
+
+        $paymentItem->item()->associate($membership);
+        $paymentItem->save();
+        $memberMembershipData = [
+            'member_id' => $member->id,
+            'membership_id' => $membership->id,
+            'payment_id' => $payment->id,
+            'status' => 'pending',
+        ];
         MemberMembership::create($memberMembershipData);
 
         return redirect()->route('payments.show', $payment->id)->with('success', 'Pembayaran dibuat, harap segera diselesaikan!');

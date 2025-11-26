@@ -63,7 +63,7 @@ class AttendanceController extends Controller
             if (!$membership) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Membership tidak aktif.'
+                    'message' => 'Membership Nonaktif.'
                 ], 403);
             }
 

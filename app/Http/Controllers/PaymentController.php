@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PaymentReceiptMail;
 use App\Mail\UserQrCodeMail;
 use App\Models\Member;
 use App\Models\MemberMembership;
@@ -135,7 +136,8 @@ class PaymentController extends Controller
                 }
             }
         }
-        Payment::where('id', $payment->id)->update($validatedData);
+        $payment->update($validatedData);
+        Mail::to($payment->user->email)->send(new PaymentReceiptMail($payment));
 
         return redirect( route('payments.update', $payment->id) )->with('success', $message);
     }

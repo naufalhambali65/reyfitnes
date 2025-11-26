@@ -63,7 +63,7 @@
                                             Aktif
                                         </option>
                                         <option value="inactive" @selected(old('status', $bank->status) == 'unavailable')>
-                                            Tidak Aktif
+                                            Nonaktif
                                         </option>
                                     </select>
                                 </div>

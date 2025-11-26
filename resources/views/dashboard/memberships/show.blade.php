@@ -201,10 +201,19 @@
                                         <td class="align-middle text-center">
                                             {{ \Carbon\Carbon::parse($member->end_date)->translatedFormat('d M Y') }}</td>
                                         <td class="align-middle text-center">
-                                            <span
+                                            @if ($member->status == 'active')
+                                                <span class="badge bg-success">Aktif</span>
+                                            @elseif($member->status == 'pending')
+                                                <span class="badge bg-warning text-dark">Menunggu</span>
+                                            @elseif ($member->status == 'expired')
+                                                <span class="badge bg-secondary">Kadaluarsa</span>
+                                            @else
+                                                <span class="badge bg-danger">Gagal</span>
+                                            @endif
+                                            {{-- <span
                                                 class="badge {{ $member->status == 'active' ? 'bg-success' : ($member->status == 'pending' ? 'bg-warning text-dark' : ($member->status == 'expired' ? 'bg-secondary' : 'bg-danger')) }}">
-                                                {{ ucfirst($member->status = 'active' ? 'Aktif' : 'Tidak Aktif') }}
-                                            </span>
+                                                {{ ucfirst($member->status = 'active' ? 'Aktif' : 'Nonaktif') }}
+                                            </span> --}}
                                         </td>
                                     </tr>
                                 @endforeach

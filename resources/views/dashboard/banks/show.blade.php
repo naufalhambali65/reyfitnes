@@ -72,7 +72,7 @@
                         <div class="col-md-4 mb-3">
                             <div class="small text-muted">Status</div>
                             <span class="badge {{ $bank->status == 'active' ? 'bg-success' : 'bg-danger' }}">
-                                {{ $bank->status == 'active' ? 'Aktif' : 'Tidak Aktif' }}
+                                {{ $bank->status == 'active' ? 'Aktif' : 'Nonaktif' }}
                             </span>
                         </div>
                     </div>

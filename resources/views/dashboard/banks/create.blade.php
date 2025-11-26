@@ -61,7 +61,7 @@
                                             Aktif
                                         </option>
                                         <option value="inactive" @selected(old('status') == 'unavailable')>
-                                            Tidak Aktif
+                                            Nonaktif
                                         </option>
                                     </select>
                                 </div>

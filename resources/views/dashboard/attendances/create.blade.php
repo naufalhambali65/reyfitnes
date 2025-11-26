@@ -132,7 +132,13 @@
                         document.getElementById("userCard").style.display = "block";
 
                     } else {
-                        alert(data.message);
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: data.message,
+                        });
+
                     }
                 })
         }

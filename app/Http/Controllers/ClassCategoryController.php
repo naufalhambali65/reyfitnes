@@ -12,7 +12,11 @@ class ClassCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Daftar Kategori Kelas';
+
+        $classCategories = ClassCategory::latest()->get();
+
+        return view('dashboard.class-categories.index', compact('title', 'classCategories'));
     }
 
     /**
@@ -28,7 +32,17 @@ class ClassCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $validatedData['slug'] = generateUniqueSlug(ClassCategory::class, $validatedData['name']);
+
+
+        ClassCategory::create($validatedData);
+
+        return redirect()->back()->with('success', 'Kategori berhasil ditambahkan!');
     }
 
     /**
@@ -52,7 +66,21 @@ class ClassCategoryController extends Controller
      */
     public function update(Request $request, ClassCategory $classCategory)
     {
-        //
+        $validatedData = $request->validate([
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($request->name != $classCategory->name) {
+            $validatedData['slug'] = generateUniqueSlug(ClassCategory::class, $validatedData['name']);
+        } else {
+            $validatedData['slug'] = $classCategory->slug;
+        }
+
+
+        ClassCategory::where('id', $classCategory->id)->update($validatedData);
+
+        return redirect()->back()->with('success', 'Kategori berhasil diperbarui!');
     }
 
     /**
@@ -60,6 +88,8 @@ class ClassCategoryController extends Controller
      */
     public function destroy(ClassCategory $classCategory)
     {
-        //
+        $classCategory->delete();
+
+        return redirect()->back()->with('success', 'Kategori berhasil dihapus!');
     }
 }

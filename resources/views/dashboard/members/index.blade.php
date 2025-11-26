@@ -65,7 +65,7 @@
                                                 </span>
                                             @else
                                                 <span class="badge px-3 py-2 bg-secondary text-white">
-                                                    Tidak Aktif
+                                                    Nonaktif
                                                 </span>
                                             @endif
                                         </td>
@@ -77,7 +77,7 @@
                                                 </span>
                                             @elseif ($member->status == 'inactive')
                                                 <span class="badge px-3 py-2 bg-secondary text-white">
-                                                    Tidak Aktif
+                                                    Nonaktif
                                                 </span>
                                             @else
                                                 <span class="badge px-3 py-2 bg-danger text-white">
@@ -97,21 +97,34 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
+                                            <form action="{{ route('members.toggleStatus', $member->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('PUT')
 
-                                            <a href="{{ route('members.edit', $member->id) }}">
-                                                <button class="btn btn-primary">
-                                                    <i class="fas fa-pencil-alt"></i>
+                                                <button type="submit" class="btn btn-warning">
+                                                    @if ($member->status == 'active')
+                                                        <i class="fas fa-toggle-off"></i>
+                                                    @else
+                                                        <i class="fas fa-toggle-on"></i>
+                                                    @endif
                                                 </button>
-                                            </a>
+                                            </form>
 
-                                            <form action="{{ route('members.destroy', $member->id) }}" method="post"
+                                            {{-- <a href="{{ route('members.status', $member->id) }}">
+                                                <button class="btn btn-primary">
+                                                    <i class="fas fa-pencil-alt"></i> Ubah Status
+                                                </button>
+                                            </a> --}}
+
+                                            {{-- <form action="{{ route('members.destroy', $member->id) }}" method="post"
                                                 class="d-inline">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="button" class="btn btn-danger border-0 btn-hapus">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </button>
-                                            </form>
+                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach

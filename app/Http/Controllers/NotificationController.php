@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
@@ -12,7 +13,19 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        //
+        $title = 'Daftar Notifikasi';
+        $user = Auth::user();
+        $notifications = Notification::where('user_id', $user->id)->latest()->get();
+
+        return view('dashboard.notifications.index', compact('title', 'notifications'));
+    }
+
+    public function markAsRead(Notification $notification)
+    {
+        if(!$notification->is_read) {
+            Notification::where('id', $notification->id)->update(['is_read' => 1]);
+        }
+        return redirect( route('notifications.index') )->with('success', 'Notifikasi ditandai telah dibaca.');
     }
 
     /**
@@ -28,7 +41,6 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
     }
 
     /**

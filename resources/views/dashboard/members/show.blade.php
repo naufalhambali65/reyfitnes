@@ -8,7 +8,7 @@
 
                     <h4 class="mb-0 fw-bold">
                         <i class="fas fa-user text-primary me-2"></i>
-                        Detail Anggota
+                        Detail Anggota: {{ $user->name }}
                     </h4>
 
                     <div class="ms-auto d-flex gap-2">
@@ -33,7 +33,7 @@
                     <p class="text-muted mb-1">{{ $user->email }}</p>
 
                     <span class="badge {{ $member->status === 'active' ? 'bg-success' : 'bg-secondary' }}">
-                        {{ ucfirst($member->status == 'active' ? 'Aktif' : 'Tidak Aktif') }}
+                        {{ ucfirst($member->status == 'active' ? 'Aktif' : 'Nonaktif') }}
                     </span>
                 </div>
                 <hr>
@@ -110,7 +110,20 @@
             <!-- History Membership -->
             <div class="card shadow-sm mb-3">
                 <div class="card-body">
-                    <h5 class="fw-bold mb-3"><i class="fas fa-history me-1"></i> Riwayat Membership</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fas fa-history me-1"></i> Riwayat Membership
+                        </h5>
+                        @if ($historyMemberships->first()->status != 'pending')
+                            @if (!$activeMembership)
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addMembership">
+                                    <i class="fas fa-plus-circle me-1"></i> Tambah Membership
+                                </button>
+                            @endif
+                        @endif
+                    </div>
+
 
                     <div class="table-responsive" style="max-height: 300px">
                         <table class="table table-head-fixed table-bordered align-middle">
@@ -120,6 +133,7 @@
                                     <th>Mulai</th>
                                     <th>Berakhir</th>
                                     <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,11 +146,20 @@
                                         <td>
                                             @if ($item->status == 'active')
                                                 <span class="badge bg-success">Aktif</span>
+                                            @elseif($item->status == 'pending')
+                                                <span class="badge bg-warning text-dark">Menunggu</span>
                                             @elseif($item->status == 'expired')
                                                 <span class="badge bg-secondary">Kadaluarsa</span>
                                             @else
                                                 <span class="badge bg-danger">Dibatalkan</span>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('memberships.show', $item->membership->slug) }}">
+                                                <button class="btn btn-success">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -191,6 +214,7 @@
                                     <th>Membership</th>
                                     <th>Total</th>
                                     <th>Status</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -200,13 +224,20 @@
                                         <td>{{ $item->membership->name ?? '-' }}</td>
                                         <td>Rp {{ number_format($item->payment->amount, 0, ',', '.') }}</td>
                                         <td>
-                                            @if ($item->payment->status === 'completed')
+                                            @if ($item->payment->status == 'completed')
                                                 <span class="badge bg-success">Selesai</span>
-                                            @elseif($item->payment->status === 'pending')
+                                            @elseif($item->payment->status == 'pending')
                                                 <span class="badge bg-warning text-dark">Menunggu</span>
                                             @else
                                                 <span class="badge bg-danger">Gagal</span>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('payments.show', $item->payment->id) }}">
+                                                <button class="btn btn-success">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -220,4 +251,117 @@
         </div>
 
     </div>
+
+    <!-- Modal Add Membership-->
+    <div class="modal fade" id="addMembership" tabindex="-1" aria-labelledby="addMembershipLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <form action="{{ route('members.addPayment', $member->id) }}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">
+                            <i class="fas fa-plus-circle me-1"></i> Tambah Pembayaran Membership
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <!-- KOLOM KIRI -->
+                            <div class="col-md-6">
+
+                                <!-- Membership -->
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Pilih Membership</label>
+                                    <select id="membershipSelect" name="membership_slug" class="form-control" required>
+                                        <option value="">-- Pilih Membership --</option>
+                                        @foreach ($memberships as $m)
+                                            <option value="{{ $m->slug }}" data-price="{{ $m->price }}">
+                                                {{ $m->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Amount (otomatis) -->
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Nominal Pembayaran</label>
+                                    <input type="number" id="amountInput" class="form-control" name="amount"
+                                        placeholder="Harga akan muncul otomatis" required readonly>
+                                </div>
+
+                                <!-- Metode Pembayaran -->
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Metode Pembayaran</label>
+                                    <select name="payment_method" id="paymentMethod" class="form-control" required>
+                                        <option value="">-- Pilih Metode --</option>
+                                        <option value="transfer">Transfer Bank</option>
+                                        <option value="qris">QRIS</option>
+                                    </select>
+                                </div>
+
+                                <!-- Select Bank (muncul hanya saat transfer) -->
+                                <div class="form-group mb-3 d-none" id="bankWrapper">
+                                    <label class="form-label">Pilih Bank</label>
+                                    <select name="bank_id" class="form-control">
+                                        <option value="">-- Pilih Bank --</option>
+                                        @foreach ($banks as $bank)
+                                            <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <!-- KOLOM KANAN -->
+                            <div class="col-md-6">
+
+                                <!-- Notes -->
+                                <div class="form-group mb-3">
+                                    <label class="form-label">Catatan (Opsional)</label>
+                                    <textarea name="notes" class="form-control" rows="6" placeholder="Catatan tambahan (opsional)"></textarea>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan Pembayaran</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection
+@section('js')
+    @if ($errors->any())
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var myModal = new bootstrap.Modal(document.getElementById('addMembership'));
+                myModal.show();
+            });
+        </script>
+    @endif
+    <script>
+        // Update harga otomatis
+        document.getElementById('membershipSelect').addEventListener('change', function() {
+            let price = this.options[this.selectedIndex].getAttribute('data-price');
+            document.getElementById('amountInput').value = price ?? '';
+        });
+
+        // Tampilkan / sembunyikan select bank
+        document.getElementById('paymentMethod').addEventListener('change', function() {
+            let bankWrapper = document.getElementById('bankWrapper');
+
+            if (this.value === 'transfer') {
+                bankWrapper.classList.remove('d-none');
+            } else {
+                bankWrapper.classList.add('d-none');
+            }
+        });
+    </script>
 @endsection
