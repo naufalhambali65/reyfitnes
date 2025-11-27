@@ -61,6 +61,12 @@ class AttendanceController extends Controller implements HasMiddleware
 
             $user = User::with('member')->findOrFail($decoded['user_id']);
 
+            if (!$user->member->status || $user->member->status == 'inactive') {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Anggota member sedang tidak aktif.'
+                ], 403);
+            }
             if (!$user->member->status || $user->member->status !== 'active') {
                 return response()->json([
                     'status' => 'error',
@@ -72,7 +78,7 @@ class AttendanceController extends Controller implements HasMiddleware
             if (!$membership) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Membership Nonaktif.'
+                    'message' => 'Membership Tidak Aktif.'
                 ], 403);
             }
 
@@ -89,13 +95,13 @@ class AttendanceController extends Controller implements HasMiddleware
                     'membership_end_date' => $membership->end_date,
                     'gender' => $user->gender = 'male' ? 'Laki-Laki' : 'Perempuan',
                     'phone' => $user->phone
-                ]
+                ],
             ]);
 
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'QR Code tidak valid 123!',
+                'message' => 'QR Code tidak valid!',
             ], 400);
         }
     }
@@ -116,9 +122,9 @@ class AttendanceController extends Controller implements HasMiddleware
     {
         // dd($request);
         $validatedData = $request->validate([
-        'user_id' => 'required|exists:users,id',
-        'member_id' => 'required|exists:members,id',
-        'membership_id' => 'required|exists:memberships,id',
+        'user_id' => 'required',
+        'member_id' => 'required',
+        'membership_id' => 'required',
         ]);
 
         $validatedData['check_in_at'] = now();

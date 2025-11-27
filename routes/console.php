@@ -6,6 +6,7 @@ use App\Models\Notification;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 Schedule::call(function () {
 
@@ -19,7 +20,8 @@ Schedule::call(function () {
     foreach ($expiredMemberships as $membership) {
 
         // Update status
-        $membership->update(['status' => 'expired']);
+        $membership->update(['status' => 'expired', 'qr_code' => '']);
+        // Storage::disk('public')->delete($membership->qr_code);
 
         // Buat notifikasi
         Notification::create([

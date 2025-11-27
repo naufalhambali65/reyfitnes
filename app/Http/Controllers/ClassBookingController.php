@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassBooking;
+use App\Models\Member;
+use App\Models\MemberMembership;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -21,7 +23,16 @@ class ClassBookingController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        //
+        $title = 'Booking Kelas';
+
+        $classBookings = ClassBooking::latest()->get();
+
+        $members = Member::whereHas('memberMemberships', function ($query) {
+            $query->where('status', 'active')
+                ->where('end_date', '>=', today());
+        })->get();
+
+        return view('dashboard.class-bookings.index', compact('title', 'members', 'classBookings'));
     }
 
     /**
@@ -37,7 +48,17 @@ class ClassBookingController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $validatedData = $request->validate([
+            'member_id'        => 'required',
+            'gym_class_id' => 'required',
+            'day' => 'required|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday'
+        ]);
+
+
+        ClassBooking::create($validatedData);
+
+        return redirect()->back()->with('success', 'Kategori berhasil ditambahkan!');
     }
 
     /**

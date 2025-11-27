@@ -113,14 +113,14 @@
                     <div class="table-responsive" style="max-height: 500px">
                         <table class="table table-head-fixed table-bordered align-middle">
                             <thead class="table-light">
-                                <tr>
+                                <tr class="text-center align-middle">
                                     <th>Nama Kelas</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($classHistories as $class)
-                                    <tr>
+                                    <tr class="text-center align-middle">
                                         <td>{{ $class->name }}</td>
                                         <td>
                                             <a href="{{ route('classes.show', $class->id) }}">

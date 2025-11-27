@@ -17,10 +17,22 @@
     </style>
 @endsection
 @section('container')
+
     <div class="row">
         <div class="col-md-12">
             <div class="card shadow-sm mb-3">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="card-body d-flex align-items-center gap-3 flex-wrap">
+
                     <div>
                         <h4 class="mb-0 fw-bold">
                             <i class="fas fa-qrcode text-primary me-2"></i> Scan untuk absensi
@@ -118,7 +130,7 @@
                             year: 'numeric'
                         });
 
-                        // console.log(data.user);
+                        console.log(data.user);
                         userId = data.user.id;
                         memberId = data.user.member_id;
                         membershipId = data.user.membership_id;

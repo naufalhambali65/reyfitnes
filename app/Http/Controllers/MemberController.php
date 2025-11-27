@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bank;
+use App\Models\ClassBooking;
+use App\Models\GymClass;
 use App\Models\Member;
 use App\Models\MemberMembership;
 use App\Models\Membership;
@@ -64,6 +66,21 @@ class MemberController extends Controller implements HasMiddleware
         $title = 'Detail Anggota';
         $user = $member->user; // relasi: Member belongsTo User
 
+        $classBookings = ClassBooking::where('member_id', $member->id)
+        ->orderBy('gym_class_id')
+        ->orderByRaw("
+            FIELD(day,
+                'monday',
+                'tuesday',
+                'wednesday',
+                'thursday',
+                'friday',
+                'saturday',
+                'sunday'
+            )
+        ")
+        ->get();
+
         $memberships = Membership::all();
         $banks = Bank::all();
 
@@ -72,6 +89,8 @@ class MemberController extends Controller implements HasMiddleware
             ->whereDate('end_date', '>=', now())
             ->orderByDesc('end_date')
             ->first();
+
+        $classes = GymClass::where('membership_id', $activeMembership->membership_id)->latest()->get();
 
         // Riwayat membership
         $historyMemberships = $member->memberMemberships()
@@ -92,7 +111,9 @@ class MemberController extends Controller implements HasMiddleware
             'historyMemberships',
             'attendances',
             'memberships',
-            'banks'
+            'banks',
+            'classBookings',
+            'classes'
         ));
 
     }

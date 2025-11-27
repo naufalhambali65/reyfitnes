@@ -128,7 +128,7 @@
                     <div class="table-responsive" style="max-height: 300px">
                         <table class="table table-head-fixed table-bordered align-middle">
                             <thead class="table-light">
-                                <tr>
+                                <tr class="text-center align-middle">
                                     <th>Paket</th>
                                     <th>Mulai</th>
                                     <th>Berakhir</th>
@@ -138,7 +138,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($historyMemberships as $item)
-                                    <tr>
+                                    <tr class="text-center align-middle">
                                         <td>{{ $item->membership->name }}</td>
                                         <td>{{ $item->start_date ? $item->start_date->translatedFormat('d M Y') : '-' }}
                                         </td>
@@ -178,7 +178,7 @@
                     <div class="table-responsive" style="max-height: 300px">
                         <table class="table table-head-fixed table-bordered align-middle">
                             <thead class="table-light">
-                                <tr>
+                                <tr class="text-center align-middle">
                                     <th>Tanggal</th>
                                     <th>Jam</th>
                                     <th>Status</th>
@@ -186,11 +186,11 @@
                             </thead>
                             <tbody>
                                 @foreach ($attendances as $att)
-                                    <tr>
+                                    <tr class="text-center align-middle">
                                         <td>{{ $att->check_in_at->translatedFormat('d M Y') }}</td>
                                         <td>{{ $att->check_in_at->format('H:i') }}</td>
                                         <td><span
-                                                class="badge bg-primary">{{ ucfirst($att->status = 'present' ? 'Hadir' : 'Tidak Hadir') }}</span>
+                                                class="badge {{ $att->status = 'present' ? 'bg-success' : 'secondary' }}">{{ ucfirst($att->status = 'present' ? 'Hadir' : 'Tidak Hadir') }}</span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -209,7 +209,7 @@
                     <div class="table-responsive" style="max-height: 300px">
                         <table class="table table-head-fixed table-bordered align-middle">
                             <thead class="table-light">
-                                <tr>
+                                <tr class="text-center align-middle">
                                     <th>Tanggal</th>
                                     <th>Membership</th>
                                     <th>Total</th>
@@ -219,7 +219,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($historyMemberships as $item)
-                                    <tr>
+                                    <tr class="text-center align-middle">
                                         <td>{{ $item->payment->created_at->translatedFormat('d M Y') }}</td>
                                         <td>{{ $item->membership->name ?? '-' }}</td>
                                         <td>Rp {{ number_format($item->payment->amount, 0, ',', '.') }}</td>
@@ -238,6 +238,93 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Booking Class History -->
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-3"><i class="fas fa-dumbbell me-1"></i> Riwayat Booking Kelas</h5>
+                        <button class="btn btn-sm btn-primary" onclick="openCreateModal()">
+                            <i class="fas fa-plus-circle me-1"></i> Tambah Booking Kelas
+                        </button>
+
+                        {{-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addClassBooking">
+                            <i class="fas fa-plus-circle me-1"></i> Tambah Booking Kelas
+                        </button> --}}
+                    </div>
+                    <div class="table-responsive" style="max-height: 300px">
+                        <table class="table table-head-fixed table-bordered align-middle">
+                            <thead class="table-light">
+                                <tr class="text-center align-middle">
+                                    <th>Kelas</th>
+                                    <th>Hari</th>
+                                    <th>Pelatih</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($classBookings as $booking)
+                                    <tr class="text-center align-middle">
+                                        <td>
+                                            <span class="text-capitalize">
+                                                {{ $booking->class->name }}
+                                            </span>
+                                            <span class="text-lowercase text-muted">
+                                                {{ $booking->class->category->name }}
+                                            </span>
+                                        </td>
+
+                                        <td class="text-center align-middle">
+                                            {{ ucwords($booking->day) ?? '' }}
+                                        </td>
+
+                                        <td class="text-center align-middle">
+                                            {{ ucwords($booking->class->trainer->user->name) }}
+                                        </td>
+
+                                        <td class="text-center align-middle">
+                                            @if ($booking->status == 'active')
+                                                <span class="badge bg-success text-white">
+                                                    Aktif
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary text-white">
+                                                    Nonaktif
+                                                </span>
+                                            @endif
+                                        </td>
+
+                                        <td class="text-center align-middle d-flex justify-content-center gap-2">
+                                            <a href="{{ route('class-bookings.show', $booking->id) }}">
+                                                <button class="btn btn-success">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </a>
+
+                                            <a href="{{ route('class-bookings.edit', $booking->id) }}">
+                                                <button class="btn btn-primary">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </button>
+                                            </a>
+
+                                            <form action="{{ route('class-bookings.destroy', $booking->id) }}"
+                                                method="post" class="d-inline">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -336,6 +423,64 @@
             </form>
         </div>
     </div>
+
+    <!-- Modal Booking Kelas -->
+    <div class="modal fade" id="classBookingModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form id="classBookingForm" method="POST">
+                    @csrf
+                    <input type="hidden" id="methodField">
+                    <input type="hidden" name="member_id" id="memberInput" value="{{ $member->id }}">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Tambah Booking Kelas</h5>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <!-- Pilih Hari -->
+                        <div class="mb-3">
+                            <label class="form-label">Hari</label>
+                            <select name="day" id="dayInput" class="form-control" required>
+                                <option value="">Pilih Hari</option>
+                                <option value="monday">Senin</option>
+                                <option value="tuesday">Selasa</option>
+                                <option value="wednesday">Rabu</option>
+                                <option value="thursday">Kamis</option>
+                                <option value="friday">Jumat</option>
+                                <option value="saturday">Sabtu</option>
+                                <option value="sunday">Minggu</option>
+                            </select>
+                        </div>
+
+                        <!-- Pilih Kelas -->
+                        <div class="mb-3">
+                            <label class="form-label">Kelas</label>
+                            <select name="gym_class_id" id="classInput" class="form-control" required>
+                                <option value="">Pilih Kelas</option>
+
+                                @foreach ($classes as $class)
+                                    <option value="{{ $class->id }}">
+                                        {{ $class->name }} — {{ $class->category->name }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" id="saveBtn">Simpan</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('js')
     @if ($errors->any())
@@ -363,5 +508,35 @@
                 bankWrapper.classList.add('d-none');
             }
         });
+    </script>
+    {{-- Script Modal Booking Kelas --}}
+    <script>
+        function openCreateModal() {
+            $("#modalTitle").text("Tambah Booking Kelas");
+            $("#saveBtn").text("Simpan");
+
+            $("#classBookingForm").attr("action", "{{ route('class-bookings.store') }}");
+            $("#methodField").remove();
+
+            $("#dayInput").val("");
+            $("#classInput").val("");
+
+            $("#classBookingModal").modal("show");
+        }
+
+        function openEditModal(booking) {
+            $("#modalTitle").text("Edit Booking Kelas");
+            $("#saveBtn").text("Update");
+
+            $("#classBookingForm").attr("action", "/class-bookings/" + booking.id);
+
+            $("#methodField").remove();
+            $("#classBookingForm").prepend('<input type="hidden" name="_method" value="PUT" id="methodField">');
+
+            $("#dayInput").val(booking.day);
+            $("#classInput").val(booking.gym_class_id);
+
+            $("#classBookingModal").modal("show");
+        }
     </script>
 @endsection
