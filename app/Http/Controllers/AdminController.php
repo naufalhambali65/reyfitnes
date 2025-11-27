@@ -12,6 +12,7 @@ class AdminController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
+            'auth',
             new Middleware('role:super_admin,admin,trainer,member,guest'),
         ];
     }

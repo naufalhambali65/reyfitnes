@@ -7,10 +7,19 @@ use App\Models\GymClass;
 use App\Models\Trainer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Mail;
 
-class TrainerController extends Controller
+class TrainerController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('role:super_admin,admin'),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

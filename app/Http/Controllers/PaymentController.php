@@ -10,12 +10,21 @@ use App\Models\Payment;
 use App\Models\User;
 use Endroid\QrCode\Builder\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 
-class PaymentController extends Controller
+class PaymentController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('role:super_admin,admin'),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

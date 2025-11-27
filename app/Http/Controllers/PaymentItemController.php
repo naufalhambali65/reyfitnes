@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\PaymentItem;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class PaymentItemController extends Controller
+class PaymentItemController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            new Middleware('role:super_admin,admin'),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

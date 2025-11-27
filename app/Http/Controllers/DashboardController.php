@@ -13,7 +13,7 @@ class DashboardController extends Controller implements HasMiddleware
     {
         return [
             'auth',
-            // new Middleware('role:super_admin,admin,trainer,member,guest', only: ['index']),
+            new Middleware('role:super_admin,admin,trainer,member,guest', only: ['index']),
         ];
     }
     public function index() {
