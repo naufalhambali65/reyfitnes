@@ -48,7 +48,6 @@ class ClassBookingController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        // dd($request);
         $validatedData = $request->validate([
             'member_id'        => 'required',
             'gym_class_id' => 'required',
@@ -58,7 +57,7 @@ class ClassBookingController extends Controller implements HasMiddleware
 
         ClassBooking::create($validatedData);
 
-        return redirect()->back()->with('success', 'Kategori berhasil ditambahkan!');
+        return redirect()->back()->with('success', 'Booking berhasil ditambahkan!');
     }
 
     /**
@@ -82,7 +81,16 @@ class ClassBookingController extends Controller implements HasMiddleware
      */
     public function update(Request $request, ClassBooking $classBooking)
     {
-        //
+        $validatedData = $request->validate([
+            'member_id'        => 'required',
+            'gym_class_id' => 'required',
+            'day' => 'required|in:monday,tuesday,wednesday,thursday,friday,saturday,sunday'
+        ]);
+
+
+        ClassBooking::where('id', $classBooking->id)->update($validatedData);
+
+        return redirect()->back()->with('success', 'Booking berhasil diupdate!');
     }
 
     /**
@@ -90,6 +98,8 @@ class ClassBookingController extends Controller implements HasMiddleware
      */
     public function destroy(ClassBooking $classBooking)
     {
-        //
+        $classBooking->delete();
+
+        return redirect()->back()->with('success', 'Booking kelas berhasil dihapus!');
     }
 }

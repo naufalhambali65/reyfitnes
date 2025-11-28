@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductUnit;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -21,7 +23,11 @@ class ProductCategoryController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        //
+        $title = 'Daftar Kategori Produk';
+        $categories = ProductCategory::latest()->get();
+        $productUnits = ProductUnit::latest()->get();
+
+        return view('dashboard.product-categories.index', compact('title', 'categories', 'productUnits'));
     }
 
     /**
@@ -37,7 +43,16 @@ class ProductCategoryController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name'        => 'required|string|max:255'
+        ]);
+
+        $validatedData['slug'] = generateUniqueSlug(ProductCategory::class, $validatedData['name']);
+
+
+        ProductCategory::create($validatedData);
+
+        return redirect()->back()->with('success', 'Kategori berhasil ditambahkan!');
     }
 
     /**
@@ -61,7 +76,20 @@ class ProductCategoryController extends Controller implements HasMiddleware
      */
     public function update(Request $request, ProductCategory $productCategory)
     {
-        //
+        $validatedData = $request->validate([
+            'name'        => 'required|string|max:255'
+        ]);
+
+        if ($request->name != $productCategory->name) {
+            $validatedData['slug'] = generateUniqueSlug(ProductCategory::class, $validatedData['name']);
+        } else {
+            $validatedData['slug'] = $productCategory->slug;
+        }
+
+
+        ProductCategory::where('id', $productCategory->id)->update($validatedData);
+
+        return redirect()->back()->with('success', 'Kategori berhasil diperbarui!');
     }
 
     /**
@@ -69,6 +97,8 @@ class ProductCategoryController extends Controller implements HasMiddleware
      */
     public function destroy(ProductCategory $productCategory)
     {
-        //
+        $productCategory->delete();
+
+        return redirect()->back()->with('success', 'Kategori produk berhasil dihapus!');
     }
 }

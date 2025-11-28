@@ -110,21 +110,6 @@
                                                     @endif
                                                 </button>
                                             </form>
-
-                                            {{-- <a href="{{ route('members.status', $member->id) }}">
-                                                <button class="btn btn-primary">
-                                                    <i class="fas fa-pencil-alt"></i> Ubah Status
-                                                </button>
-                                            </a> --}}
-
-                                            {{-- <form action="{{ route('members.destroy', $member->id) }}" method="post"
-                                                class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form> --}}
                                         </td>
                                     </tr>
                                 @endforeach

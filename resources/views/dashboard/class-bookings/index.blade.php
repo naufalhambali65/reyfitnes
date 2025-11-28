@@ -73,26 +73,11 @@
                                         </td>
 
                                         <td class="text-center align-middle d-flex justify-content-center gap-2">
-                                            <a href="{{ route('class-bookings.show', $booking->id) }}">
+                                            <a href="{{ route('members.show', $booking->member->id) }}">
                                                 <button class="btn btn-success">
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
-
-                                            <a href="{{ route('class-bookings.edit', $booking->id) }}">
-                                                <button class="btn btn-primary">
-                                                    <i class="fas fa-pencil-alt"></i>
-                                                </button>
-                                            </a>
-
-                                            <form action="{{ route('class-bookings.destroy', $booking->id) }}"
-                                                method="post" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

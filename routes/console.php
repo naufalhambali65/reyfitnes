@@ -15,13 +15,18 @@ Schedule::call(function () {
         ->where('status', '=', 'active')
         ->get();
 
-    $admins = User::where('role', 'admin')->get();
+    if ($expiredMemberships->isEmpty()) {
+        Log::info("No expired memberships today.");
+        return;
+    }
+
+    $adminIds = User::where('role', 'admin')->pluck('id');
 
     foreach ($expiredMemberships as $membership) {
 
         // Update status
+        Storage::disk('public')->delete($membership->qr_code);
         $membership->update(['status' => 'expired', 'qr_code' => '']);
-        // Storage::disk('public')->delete($membership->qr_code);
 
         // Buat notifikasi
         Notification::create([
@@ -34,9 +39,9 @@ Schedule::call(function () {
                 Carbon::parse($membership->end_date)->translatedFormat('d M Y'),
         ]);
 
-        foreach ($admins as $admin) {
+        foreach ($adminIds as $id) {
             Notification::create([
-                'user_id' => $admin->id,
+                'user_id' => $id,
                 'title' => 'Membership Kadaluarsa | ' . $membership->user->name,
                 'type' => 'warning',
                 'icon'  => 'fas fa-exclamation-triangle',
@@ -47,5 +52,5 @@ Schedule::call(function () {
         }
     }
 
-    Log::info('Scheduler running...');
-})->everyMinute();
+    Log::info("Expired memberships processed: {$expiredMemberships->count()}");
+})->daily();

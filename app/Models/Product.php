@@ -36,5 +36,15 @@ class Product extends Model
         return $this->hasMany(StockLog::class);
     }
 
+    public function getPriceFormattedAttribute()
+    {
+        return 'Rp. ' . number_format($this->price, 2, ',', '.');
+    }
+
+    public function getCostFormattedAttribute()
+    {
+        return 'Rp. ' . number_format($this->cost, 2, ',', '.');
+    }
+
 
 }

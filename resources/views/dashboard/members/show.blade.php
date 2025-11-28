@@ -8,7 +8,7 @@
 
                     <h4 class="mb-0 fw-bold">
                         <i class="fas fa-user text-primary me-2"></i>
-                        Detail Anggota: {{ $user->name }}
+                        Detail Anggota: {{ ucwords($user->name) }}
                     </h4>
 
                     <div class="ms-auto d-flex gap-2">
@@ -29,7 +29,7 @@
                     <img src="{{ $user->image ? asset('storage/' . $user->image) : '/homepage_assets/img/default-profil.png' }}"
                         class="img-fluid rounded mb-3" style="max-width: 180px; height: auto; object-fit: cover;">
 
-                    <h4 class="fw-bold mb-0">{{ $user->name }}</h4>
+                    <h4 class="fw-bold mb-0">{{ ucwords($user->name) }}</h4>
                     <p class="text-muted mb-1">{{ $user->email }}</p>
 
                     <span class="badge {{ $member->status === 'active' ? 'bg-success' : 'bg-secondary' }}">
@@ -248,92 +248,90 @@
                 </div>
             </div>
             <!-- Booking Class History -->
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold mb-3"><i class="fas fa-dumbbell me-1"></i> Riwayat Booking Kelas</h5>
-                        <button class="btn btn-sm btn-primary" onclick="openCreateModal()">
-                            <i class="fas fa-plus-circle me-1"></i> Tambah Booking Kelas
-                        </button>
-
-                        {{-- <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#addClassBooking">
-                            <i class="fas fa-plus-circle me-1"></i> Tambah Booking Kelas
-                        </button> --}}
-                    </div>
-                    <div class="table-responsive" style="max-height: 300px">
-                        <table class="table table-head-fixed table-bordered align-middle">
-                            <thead class="table-light">
-                                <tr class="text-center align-middle">
-                                    <th>Kelas</th>
-                                    <th>Hari</th>
-                                    <th>Pelatih</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($classBookings as $booking)
+            @if ($activeMembership->membership->gymClasses->count() > 0)
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-3"><i class="fas fa-dumbbell me-1"></i> Riwayat Booking Kelas</h5>
+                            <button class="btn btn-sm btn-primary" onclick="openCreateModal()">
+                                <i class="fas fa-plus-circle me-1"></i> Tambah Booking Kelas
+                            </button>
+                        </div>
+                        <div class="table-responsive" style="max-height: 300px">
+                            <table class="table table-head-fixed table-bordered align-middle">
+                                <thead class="table-light">
                                     <tr class="text-center align-middle">
-                                        <td>
-                                            <span class="text-capitalize">
-                                                {{ $booking->class->name }}
-                                            </span>
-                                            <span class="text-lowercase text-muted">
-                                                {{ $booking->class->category->name }}
-                                            </span>
-                                        </td>
-
-                                        <td class="text-center align-middle">
-                                            {{ ucwords($booking->day) ?? '' }}
-                                        </td>
-
-                                        <td class="text-center align-middle">
-                                            {{ ucwords($booking->class->trainer->user->name) }}
-                                        </td>
-
-                                        <td class="text-center align-middle">
-                                            @if ($booking->status == 'active')
-                                                <span class="badge bg-success text-white">
-                                                    Aktif
+                                        <th>Kelas</th>
+                                        <th>Hari</th>
+                                        <th>Pelatih</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($classBookings as $booking)
+                                        <tr class="text-center align-middle">
+                                            <td>
+                                                <span class="text-capitalize">
+                                                    {{ $booking->class->name }}
                                                 </span>
-                                            @else
-                                                <span class="badge bg-secondary text-white">
-                                                    Nonaktif
+                                                <span class="text-lowercase text-muted">
+                                                    {{ $booking->class->category->name }}
                                                 </span>
-                                            @endif
-                                        </td>
+                                            </td>
 
-                                        <td class="text-center align-middle d-flex justify-content-center gap-2">
-                                            <a href="{{ route('class-bookings.show', $booking->id) }}">
-                                                <button class="btn btn-success">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </a>
+                                            <td class="text-center align-middle">
+                                                {{ ucwords($booking->day) ?? '' }}
+                                            </td>
 
-                                            <a href="{{ route('class-bookings.edit', $booking->id) }}">
-                                                <button class="btn btn-primary">
+                                            <td class="text-center align-middle">
+                                                {{ ucwords($booking->class->trainer->user->name) }}
+                                            </td>
+
+                                            <td class="text-center align-middle">
+                                                @if ($booking->status == 'active')
+                                                    <span class="badge bg-success text-white">
+                                                        Aktif
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-secondary text-white">
+                                                        Nonaktif
+                                                    </span>
+                                                @endif
+                                            </td>
+
+                                            <td class="text-center align-middle d-flex justify-content-center gap-2">
+
+                                                {{-- <a href="{{ route('class-bookings.edit', $booking->id) }}">
+                                                    <button class="btn btn-primary">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </button>
+                                                </a> --}}
+
+                                                <button class="btn btn-primary"
+                                                    onclick="openEditModal({{ $booking->id }}, '{{ $booking->day }}', {{ $booking->gym_class_id }})">
                                                     <i class="fas fa-pencil-alt"></i>
                                                 </button>
-                                            </a>
 
-                                            <form action="{{ route('class-bookings.destroy', $booking->id) }}"
-                                                method="post" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+
+                                                <form action="{{ route('class-bookings.destroy', $booking->id) }}"
+                                                    method="post" class="d-inline">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="button" class="btn btn-danger border-0 btn-hapus">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
-
                 </div>
-            </div>
+            @endif
 
         </div>
 
@@ -510,7 +508,7 @@
         });
     </script>
     {{-- Script Modal Booking Kelas --}}
-    <script>
+    {{-- <script>
         function openCreateModal() {
             $("#modalTitle").text("Tambah Booking Kelas");
             $("#saveBtn").text("Simpan");
@@ -537,6 +535,53 @@
             $("#classInput").val(booking.gym_class_id);
 
             $("#classBookingModal").modal("show");
+        }
+    </script> --}}
+
+    <script>
+        // === CREATE ===
+        function openCreateModal() {
+            // Set title
+            document.getElementById('modalTitle').innerText = "Tambah Booking Kelas";
+
+            // Set form action
+            document.getElementById('classBookingForm').action = "{{ route('class-bookings.store') }}";
+
+            // Remove method PUT
+            document.getElementById('methodField').value = "";
+
+            // Clear inputs
+            document.getElementById('dayInput').value = "";
+            document.getElementById('classInput').value = "";
+
+            // Set button text
+            document.getElementById('saveBtn').innerText = "Simpan";
+
+            // Open modal
+            new bootstrap.Modal(document.getElementById('classBookingModal')).show();
+        }
+
+        // === EDIT ===
+        function openEditModal(id, day, classId) {
+            // Set title
+            document.getElementById('modalTitle').innerText = "Edit Booking Kelas";
+
+            // Form action route
+            document.getElementById('classBookingForm').action = "/dashboard/class-bookings/" + id;
+
+            // Add PUT method
+            document.getElementById('methodField').outerHTML =
+                '<input type="hidden" name="_method" value="PUT">';
+
+            // Fill inputs
+            document.getElementById('dayInput').value = day;
+            document.getElementById('classInput').value = classId;
+
+            // Set button text
+            document.getElementById('saveBtn').innerText = "Update";
+
+            // Open modal
+            new bootstrap.Modal(document.getElementById('classBookingModal')).show();
         }
     </script>
 @endsection

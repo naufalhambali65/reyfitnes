@@ -37,7 +37,13 @@ class ProductUnitController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name'        => 'required|string|max:255'
+        ]);
+
+        ProductUnit::create($validatedData);
+
+        return redirect()->back()->with('success', 'Unit produk berhasil ditambahkan!');
     }
 
     /**
@@ -61,7 +67,13 @@ class ProductUnitController extends Controller implements HasMiddleware
      */
     public function update(Request $request, ProductUnit $productUnit)
     {
-        //
+        $validatedData = $request->validate([
+            'name'        => 'required|string|max:255'
+        ]);
+
+        ProductUnit::where('id', $productUnit->id)->update($validatedData);
+
+        return redirect()->back()->with('success', 'Unit produk berhasil diperbarui!');
     }
 
     /**
@@ -69,6 +81,8 @@ class ProductUnitController extends Controller implements HasMiddleware
      */
     public function destroy(ProductUnit $productUnit)
     {
-        //
+        $productUnit->delete();
+
+        return redirect()->back()->with('success', 'Unit produk produk berhasil dihapus!');
     }
 }

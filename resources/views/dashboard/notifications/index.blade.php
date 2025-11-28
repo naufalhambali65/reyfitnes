@@ -40,7 +40,7 @@
                             <h5 class="fw-bold mb-1">{{ $notif->title }}</h5>
 
                             <p class="mb-1 text-muted" style="white-space:pre-line">
-                                {{ $notif->message }}
+                                {!! $notif->message !!}
                             </p>
 
                             <span

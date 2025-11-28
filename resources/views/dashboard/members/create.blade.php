@@ -399,6 +399,7 @@
     <script>
         $('.btn-select-user').on('click', function() {
             const user = $(this).data('user');
+            console.log(user);
 
             document.querySelectorAll('.form-control').forEach(input => {
                 input.disabled = false;
@@ -421,12 +422,14 @@
             $('#selectedUserBox').removeClass('d-none');
             $('#selectedUserName').text(user.name + " / " + user.email);
 
+            date = user.birth_date;
+
             // Isi field form
             $('input[name="email"]').val(user.email);
             $('input[name="name"]').val(user.name);
             $('input[name="phone"]').val(user.phone ?? "");
             $('select[name="gender"]').val(user.gender ? (user.gender == 'Laki - Laki' ? 'male' : 'female') : '');
-            $('input[name="birth_date"]').val(user.birth_date ?? "");
+            $('input[name="birth_date"]').val(date.split("T")[0] ?? "");
             $('input[name="oldImage"]').val(user.image ?? "");
             $('textarea[name="address"]').val(user.address ?? "");
 

@@ -38,9 +38,9 @@ class Membership extends Model
     }
 
     public function getPriceFormattedAttribute()
-{
-    return 'Rp. ' . number_format($this->price, 2, ',', '.');
-}
+    {
+        return 'Rp. ' . number_format($this->price, 2, ',', '.');
+    }
 
 
 }

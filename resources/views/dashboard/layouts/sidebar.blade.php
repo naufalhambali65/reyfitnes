@@ -51,7 +51,7 @@
                                     Request::is('dashboard/class-categories*') |
                                     Request::is('dashboard/class-bookings*')) active @endif">
                           <i class="nav-icon fas fa-dumbbell"></i>
-                          <p>Management Kelas</p>
+                          <p>Manajemen Kelas</p>
                           <i class="fas fa-angle-left right"></i>
                       </a>
 
@@ -69,7 +69,7 @@
                           <li class="nav-item">
                               <a href="{{ route('trainers.index') }}"
                                   class="nav-link {{ Request::is('dashboard/trainers*') ? 'active' : '' }} ps-5">
-                                  <i class="far fa-user nav-icon"></i>
+                                  <i class="fas fa-user nav-icon"></i>
                                   <p>Instruktur</p>
                               </a>
                           </li>
@@ -78,7 +78,7 @@
                           <li class="nav-item">
                               <a href="{{ route('class-categories.index') }}"
                                   class="nav-link {{ Request::is('dashboard/class-categories*') ? 'active' : '' }} ps-5">
-                                  <i class="far fa-list-alt nav-icon"></i>
+                                  <i class="fas fa-list-alt nav-icon"></i>
                                   <p>Kategori Kelas</p>
                               </a>
                           </li>
@@ -87,7 +87,7 @@
                           <li class="nav-item">
                               <a href="{{ route('class-bookings.index') }}"
                                   class="nav-link {{ Request::is('dashboard/class-bookings*') ? 'active' : '' }} ps-5">
-                                  <i class="far fa-calendar-check nav-icon"></i>
+                                  <i class="fas fa-calendar-check nav-icon"></i>
                                   <p>Booking Kelas</p>
                               </a>
                           </li>
@@ -95,20 +95,13 @@
                       </ul>
                   </li>
 
-                  {{-- <li class="nav-item">
-                      <a href="{{ route('classes.index') }}"
-                          class="nav-link {{ Request::is('dashboard/classes*') ? 'active' : '' }}">
-                          <i class="nav-icon fas fa-dumbbell"></i>
-                          <p>Kelas</p>
-                      </a>
-                  </li> --}}
                   @if ($role == 'admin' || $role == 'super_admin')
                       <li class="nav-item">
                           <a href="{{ route('members.index') }}"
                               class="nav-link  {{ Request::is('dashboard/memberships*') ? '' : (Request::is('dashboard/members*') ? 'active' : '') }}">
                               <i class="nav-icon fas fa-user-friends"></i>
                               <p>
-                                  Anggota
+                                  Anggota (Member)
                               </p>
                           </a>
                       </li>
@@ -121,6 +114,54 @@
                               </p>
                           </a>
                       </li>
+                      <li
+                          class="nav-item
+                            @if (Request::is('dashboard/products*') ||
+                                    Request::is('dashboard/product-stocks*') ||
+                                    Request::is('dashboard/product-categories*')) menu-open @endif">
+
+                          <a href="#"
+                              class="nav-link
+                            @if (Request::is('dashboard/products*') ||
+                                    Request::is('dashboard/product-stocks*') ||
+                                    Request::is('dashboard/product-categories*')) active @endif">
+                              <i class="nav-icon fas fa-store"></i>
+                              <p>Manajemen Produk</p>
+                              <i class="fas fa-angle-left right"></i>
+                          </a>
+
+                          <ul class="nav nav-treeview">
+
+                              {{-- Katalog Produk --}}
+                              <li class="nav-item">
+                                  <a href="{{ route('product-catalogues.index') }}"
+                                      class="nav-link {{ Request::is('dashboard/product-catalogues*') ? 'active' : '' }} ps-5">
+                                      <i class="fas fa-shopping-bag nav-icon"></i>
+                                      <p>Katalog Produk</p>
+                                  </a>
+                              </li>
+
+                              {{-- Stok Produk --}}
+                              <li class="nav-item">
+                                  <a href="{{ route('product-stocks.index') }}"
+                                      class="nav-link {{ Request::is('dashboard/product-stocks*') ? 'active' : '' }} ps-5">
+                                      <i class="fas fa-layer-group nav-icon"></i>
+                                      <p>Stok Produk</p>
+                                  </a>
+                              </li>
+
+                              {{-- Kategori Produk --}}
+                              <li class="nav-item">
+                                  <a href="{{ route('product-categories.index') }}"
+                                      class="nav-link {{ Request::is('dashboard/product-categories*') ? 'active' : '' }} ps-5">
+                                      <i class="fas fa-list-alt nav-icon"></i>
+                                      <p>Kategori Produk</p>
+                                  </a>
+                              </li>
+
+                          </ul>
+                      </li>
+
                       <li class="nav-item">
                           <a href="{{ route('payments.index') }}"
                               class="nav-link {{ Request::is('dashboard/payments*') ? 'active' : '' }}">
@@ -151,18 +192,18 @@
                           </a>
                       </li>
                   @endif
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                       <a href="#" class="nav-link {{ Request::is('dashboard/messages*') ? 'active' : '' }}">
                           <i class="nav-icon fas fa-envelope"></i>
                           <p>
                               Pesan
-                              {{-- @if ($newMessage)
+                              @if ($newMessage)
                                   <span class="badge badge-danger right">{{ $newMessage }}</span>
-                              @endif --}}
+                              @endif
                           </p>
                       </a>
-                  </li>
-                  <li class="nav-header">User Setting</li>
+                  </li> --}}
+                  {{-- <li class="nav-header">User Setting</li>
                   <li class="nav-item">
                       <a href="#"
                           class="nav-link {{ Request::is('dashboard/changePassword*') ? 'active' : '' }}">
@@ -171,7 +212,7 @@
                               Change Password
                           </p>
                       </a>
-                  </li>
+                  </li> --}}
               </ul>
           </nav>
           <!-- /.sidebar-menu -->

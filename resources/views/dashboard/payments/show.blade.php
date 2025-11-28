@@ -187,7 +187,7 @@
                                     <img src="{{ asset('storage/' . $payment->payment_proof) }}"
                                         class="img-preview img-fluid mb-3 col-sm-5 d-block" style="object-fit: cover;">
                                 @else
-                                    <form action="{{ route('payments.update', $payment->id) }}" method="POST"
+                                    <form action="{{ route('payments.updatePaymentProof', $payment->id) }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')

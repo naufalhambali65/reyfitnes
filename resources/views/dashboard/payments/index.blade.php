@@ -57,11 +57,6 @@
                     <h2 class="card-title mb-0 fw-bold">
                         <i class="fas fa-credit-card me-2 text-primary"></i> Semua Riwayat Pembayaran
                     </h2>
-                    <div class="ms-auto">
-                        <a href="{{ route('banks.create') }}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-plus-circle me-1"></i> Tambah Pembayaran
-                        </a>
-                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -121,21 +116,6 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
-                                            <a href="{{ route('payments.edit', $payment->id) }}">
-                                                <button class="btn btn-primary">
-                                                    <i class="fas fa-pencil-alt "></i>
-                                                </button>
-                                            </a>
-                                            <form action="{{ route('payments.destroy', $payment->id) }}" method="post"
-                                                class="d-inline ">
-                                                @method('delete')
-                                                @csrf
-                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-
-
                                         </td>
 
                                     </tr>

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\ClassBookingController;
@@ -13,6 +12,11 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProductCatalogController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductUnitController;
+use App\Http\Controllers\StockLogController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +34,7 @@ Route::resource('/dashboard/members', MemberController::class);
 Route::put('/members/{member}/toggle-status',[MemberController::class, 'toggleStatus'])->name('members.toggleStatus');
 Route::put('/dashboard/members/payments/{user}', [MemberController::class, 'payment'])->name('members.payment');
 Route::post('/dashboard/members/addPayments/{member}', [MemberController::class, 'addPayment'])->name('members.addPayment');
+Route::PUT('/dashboard/payments/updatePaymentProof/{payment}', [PaymentController::class, 'updatePaymentProof'])->name('payments.updatePaymentProof');
 Route::resource('/dashboard/payments', PaymentController::class);
 
 Route::resource('/dashboard/memberships', MembershipController::class);
@@ -49,6 +54,14 @@ Route::resource('/dashboard/class-bookings', ClassBookingController::class);
 
 Route::put('/trainers/{trainer}/toggle-status',[TrainerController::class, 'toggleStatus'])->name('trainers.toggleStatus');
 Route::resource('/dashboard/trainers', TrainerController::class);
+
+// Route::resource('/dashboard/products-catalog', ProductController::class);
+Route::resource('/dashboard/product-stocks', ProductController::class);
+Route::resource('/dashboard/product-categories', ProductCategoryController::class);
+Route::resource('/dashboard/product-units', ProductUnitController::class);
+
+Route::get('/dashboard/product-catalogues', [ProductCatalogController::class, 'index'])->name('product-catalogues.index');
+
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

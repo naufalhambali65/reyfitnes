@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller implements HasMiddleware
@@ -156,7 +157,7 @@ class MemberController extends Controller implements HasMiddleware
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|email',
+            'email' => 'required|email',
             'gender' => 'required|in:male,female',
             'address' => 'nullable|string|max:255',
             'birth_date' => 'required|date|before:today',
@@ -172,50 +173,61 @@ class MemberController extends Controller implements HasMiddleware
             'notes' => 'string|nullable'
         ]);
 
-        $membership = Membership::where('slug', $request->membership_slug)->first();
+        $membership = Membership::where('slug', $request->membership_slug)->firstOrFail();
 
+        DB::beginTransaction();
 
-        if ($request->file('image')) {
-            if ($request->oldImage) {
-                Storage::disk('public')->delete($request->oldImage);
+        try {
+            if ($request->file('image')) {
+                if ($request->oldImage) {
+                    Storage::disk('public')->delete($request->oldImage);
+                }
+                $validatedData['image'] = $request->file('image')->store('user-profile-image', 'public');
             }
-            $validatedData['image'] = $request->file('image')->store('user-profile-image', 'public');
+
+            $validatedData['role'] = 'member';
+
+            User::where('id', $user->id)->update($validatedData);
+
+            $validatedPayment['user_id'] = $user->id;
+            $payment = Payment::create($validatedPayment);
+
+            $paymentItem = new PaymentItem();
+            $paymentItem->payment_id = $payment->id;
+            $paymentItem->quantity = 1;
+            $paymentItem->price = $validatedPayment['amount'];
+            $paymentItem->subtotal = $paymentItem->price * $paymentItem->quantity;
+
+            $paymentItem->item()->associate($membership);
+            $paymentItem->save();
+
+            $memberData = [
+                'user_id' => $user->id,
+                'status' => 'inactive',
+                'join_date' => now()
+            ];
+
+            $member = Member::create($memberData);
+
+            $memberMembershipData = [
+                'member_id' => $member->id,
+                'membership_id' => $membership->id,
+                'payment_id' => $payment->id,
+                'status' => 'pending',
+            ];
+
+            MemberMembership::create($memberMembershipData);
+
+            DB::commit();
+
+            return redirect()
+                ->route('payments.show', $payment->id)
+                ->with('success', 'Pembayaran dibuat, harap segera diselesaikan!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal membuat pembayaran!');
         }
-
-        $validatedData['role'] = 'member';
-
-        User::where('id', $user->id)->update($validatedData);
-
-        $validatedPayment['user_id'] = $user->id;
-        $payment = Payment::create($validatedPayment);
-
-        $paymentItem = new PaymentItem();
-        $paymentItem->payment_id = $payment->id;
-        $paymentItem->quantity = 1;
-        $paymentItem->price = $validatedPayment['amount'];
-        $paymentItem->subtotal = $paymentItem->price * $paymentItem->quantity;
-
-        $paymentItem->item()->associate($membership);
-        $paymentItem->save();
-
-        $memberData = [
-            'user_id' => $user->id,
-            'status' => 'inactive',
-            'join_date' => now()
-        ];
-
-        $member = Member::create($memberData);
-
-        $memberMembershipData = [
-            'member_id' => $member->id,
-            'membership_id' => $membership->id,
-            'payment_id' => $payment->id,
-            'status' => 'pending',
-        ];
-
-        MemberMembership::create($memberMembershipData);
-
-        return redirect()->route('payments.show', $payment->id)->with('success', 'Pembayaran dibuat, harap segera diselesaikan!');
     }
 
     // Controller saat member mau tambah paket membership
@@ -231,25 +243,37 @@ class MemberController extends Controller implements HasMiddleware
         $membership = Membership::where('slug', $request->membership_slug)->first();
 
         $validatedPayment['user_id'] = $member->user_id;
-        $payment = Payment::create($validatedPayment);
+        DB::beginTransaction();
 
-        $paymentItem = new PaymentItem();
-        $paymentItem->payment_id = $payment->id;
-        $paymentItem->quantity = 1;
-        $paymentItem->price = $validatedPayment['amount'];
-        $paymentItem->subtotal = $paymentItem->price * $paymentItem->quantity;
+        try {
+            $payment = Payment::create($validatedPayment);
 
-        $paymentItem->item()->associate($membership);
-        $paymentItem->save();
-        $memberMembershipData = [
-            'member_id' => $member->id,
-            'membership_id' => $membership->id,
-            'payment_id' => $payment->id,
-            'status' => 'pending',
-        ];
-        MemberMembership::create($memberMembershipData);
+            $paymentItem = new PaymentItem();
+            $paymentItem->payment_id = $payment->id;
+            $paymentItem->quantity = 1;
+            $paymentItem->price = $validatedPayment['amount'];
+            $paymentItem->subtotal = $paymentItem->price * $paymentItem->quantity;
 
-        return redirect()->route('payments.show', $payment->id)->with('success', 'Pembayaran dibuat, harap segera diselesaikan!');
+            $paymentItem->item()->associate($membership);
+            $paymentItem->save();
+            $memberMembershipData = [
+                'member_id' => $member->id,
+                'membership_id' => $membership->id,
+                'payment_id' => $payment->id,
+                'status' => 'pending',
+            ];
+            MemberMembership::create($memberMembershipData);
+
+            DB::commit();
+
+            return redirect()
+                ->route('payments.show', $payment->id)
+                ->with('success', 'Pembayaran dibuat, harap segera diselesaikan!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Gagal membuat pembayaran!');
+        }
     }
 
 

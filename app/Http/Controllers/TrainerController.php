@@ -74,6 +74,8 @@ class TrainerController extends Controller implements HasMiddleware
 
         $validatedData['password'] = bcrypt($validatedData['password']);
 
+        $validatedData['role'] = 'trainer';
+
         if ($request->file('image')) {
             $validatedData['image'] = $request->file('image')->store('user-profile-image', 'public');
         }
