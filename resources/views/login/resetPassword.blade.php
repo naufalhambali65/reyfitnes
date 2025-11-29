@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Rey Fitnes | Daftar</title>
+    <title>Rey Fitnes | Reset Password</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <!-- Bootstrap & Template CSS -->
     <link href="/homepage_assets/css/bootstrap.min.css" rel="stylesheet">
     <link href="/homepage_assets/css/style.css" rel="stylesheet">
+
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -18,7 +19,19 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        .register-container {
+        body.swal2-shown {
+            padding-right: 0 !important;
+            /* cegah geseran horizontal */
+        }
+
+        .swal2-container {
+            z-index: 99999 !important;
+            /* hanya untuk memastikan */
+        }
+    </style>
+
+    <style>
+        .login-container {
             height: 100vh;
             display: flex;
             align-items: center;
@@ -28,14 +41,14 @@
             /* font-family: "Work Sans", sans-serif; */
         }
 
-        .register-container::before {
+        .login-container::before {
             content: "";
             position: absolute;
             inset: 0;
             background: rgba(17, 17, 17, 0.6);
         }
 
-        .register-box {
+        .login-box {
             position: relative;
             z-index: 1;
             background: rgba(255, 255, 255, 0.7);
@@ -47,7 +60,7 @@
             animation: fadeInUp 0.8s ease;
         }
 
-        .register-box h2 {
+        .login-box h2 {
             font-weight: 600;
             color: #444;
             margin-bottom: 25px;
@@ -56,10 +69,9 @@
         .form-control {
             border-radius: 6px;
             padding: 12px 15px;
-            border: 1px solid #ccc;
         }
 
-        .btn-register {
+        .btn-login {
             background: #f36100;
             color: #fff;
             border-radius: 6px;
@@ -69,7 +81,7 @@
             border: none;
         }
 
-        .btn-register:hover {
+        .btn-login:hover {
             background: #f36100;
         }
 
@@ -127,6 +139,7 @@
             }
         }
     </style>
+
     <style>
         .password-wrapper {
             position: relative;
@@ -145,28 +158,20 @@
 </head>
 
 <body>
-    <div class="register-container">
-        <div class="register-box text-center">
+    <div class="login-container">
+        <div class="login-box text-center">
             <a class="logo-wrapper p-0 mb-3" href="{{ route('home') }}"><img src="/homepage_assets/img/logo/logo.png"
                     alt="Rey Fitnes">
             </a>
 
-            <h2 class="mt-4">Daftar</h2>
-            <form action="{{ route('register.submit') }}" method="POST">
+            <h2 class="mt-4">Reset Password</h2>
+            <form action="{{ route('password.update') }}" method="POST">
                 @csrf
+                <input type="hidden" name="token" value="{{ $token }}">
                 <div class="form-group mb-3">
                     <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email"
                         name="email" required />
                     @error('email')
-                        <div class="invalid-feedback" style="text-align: left;">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-                <div class="form-group mb-3">
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Name"
-                        name="name" required />
-                    @error('name')
                         <div class="invalid-feedback" style="text-align: left;">
                             {{ $message }}
                         </div>
@@ -210,7 +215,7 @@
                 </div>
 
 
-                <button type="submit" class="btn btn-register w-100">Daftar</button>
+                <button type="submit" class="btn btn-login w-100">Reset Password</button>
             </form>
 
             <div class="row login-footer mt-3">
@@ -242,7 +247,6 @@
         setupToggle("password", "togglePassword1");
         setupToggle("password_confirmation", "togglePassword2");
     </script>
-
 
     @if (session('success'))
         <script>

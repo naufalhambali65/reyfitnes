@@ -399,7 +399,6 @@
     <script>
         $('.btn-select-user').on('click', function() {
             const user = $(this).data('user');
-            console.log(user);
 
             document.querySelectorAll('.form-control').forEach(input => {
                 input.disabled = false;

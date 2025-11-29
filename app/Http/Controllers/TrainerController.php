@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\UserCreatedMail;
+use App\Models\ClassBooking;
 use App\Models\GymClass;
 use App\Models\Trainer;
 use App\Models\User;
@@ -95,29 +96,35 @@ class TrainerController extends Controller implements HasMiddleware
      * Display the specified resource.
      */
     public function show(Trainer $trainer)
-{
-    $title = 'Detail Trainer';
+    {
+        $title = 'Detail Trainer';
 
-    // Riwayat kelas yang pernah dibawakan trainer
-    // Relasi: GymClass -> trainer_id
-    $classHistories = GymClass::where('trainer_id', $trainer->id)
-        ->latest()
+        $classHistories = GymClass::where('trainer_id', $trainer->id)
+            ->latest()
+            ->get();
+
+        $classBookings = ClassBooking::whereIn('gym_class_id', $classHistories->pluck('id'))->orderBy('gym_class_id')
+        ->orderByRaw("
+            FIELD(day,
+                'monday',
+                'tuesday',
+                'wednesday',
+                'thursday',
+                'friday',
+                'saturday',
+                'sunday'
+            )
+        ")
         ->get();
 
-    // Jadwal mengajar trainer (jika ada relasi schedule)
-    // Sesuaikan nama model dan kolom jika berbeda
-    // $schedules = \App\Models\ClassSchedule::where('trainer_id', $trainer->id)
-    //     ->with('class')
-    //     ->orderBy('day')
-    //     ->get();
 
-    return view('dashboard.trainers.show', compact(
-        'title',
-        'trainer',
-        'classHistories',
-        // 'schedules'
-    ));
-}
+        return view('dashboard.trainers.show', compact(
+            'title',
+            'trainer',
+            'classHistories',
+            'classBookings'
+        ));
+    }
 
 
     /**

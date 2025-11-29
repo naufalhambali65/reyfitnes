@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\ClassBookingController;
 use App\Http\Controllers\ClassCategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GymClassController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\LoginController;
@@ -16,6 +18,9 @@ use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductUnitController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\StockLogController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserController;
@@ -55,13 +60,24 @@ Route::resource('/dashboard/class-bookings', ClassBookingController::class);
 Route::put('/trainers/{trainer}/toggle-status',[TrainerController::class, 'toggleStatus'])->name('trainers.toggleStatus');
 Route::resource('/dashboard/trainers', TrainerController::class);
 
-// Route::resource('/dashboard/products-catalog', ProductController::class);
 Route::resource('/dashboard/product-stocks', ProductController::class);
 Route::resource('/dashboard/product-categories', ProductCategoryController::class);
 Route::resource('/dashboard/product-units', ProductUnitController::class);
-
 Route::get('/dashboard/product-catalogues', [ProductCatalogController::class, 'index'])->name('product-catalogues.index');
 
+Route::get('/dashboard/reports', [ReportController::class, 'index'])->name('reports.index');
 
+Route::put('/dashboard/admins/{user}', [AdminController::class, 'toggleRole'])->name('admins.toggleRole');
+Route::resource('/dashboard/admins', AdminController::class);
+
+Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('/dashboard/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::put('/dashboard/profile/change-password', [ProfileController::class, 'changePass'])->name('profile.change-password');
+Route::put('/dashboard/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
+Route::get('/forgot-password', [ForgotPasswordController::class, 'show'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'send'])->name('password.email');
+Route::get('/reset-password/{token}', [ResetPasswordController::class, 'show'])->name('password.reset');
+Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

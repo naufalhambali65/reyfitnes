@@ -10,10 +10,17 @@
       <div class="sidebar">
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
               <div class="image">
-                  <img src="/homepage_assets/img/default-profil.png" class="img-circle elevation-2" alt="User Image">
+                  @if (auth()->user()->image)
+                      <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="{{ auth()->user()->name }}"
+                          class="img-circle elevation-2" style="width: 35px; height: 35px; object-fit: cover;">
+                  @else
+                      <img src="/homepage_assets/img/default-profil.png" class="img-circle elevation-2"
+                          alt="User Image">
+                  @endif
               </div>
               <div class="info">
-                  <a href="#" class="d-block text-decoration-none">{{ auth()->user()->name }}</a>
+                  <a href="{{ route('profile.index') }}"
+                      class="d-block text-decoration-none">{{ auth()->user()->name }}</a>
               </div>
           </div>
           <!-- Sidebar Menu -->
@@ -39,6 +46,35 @@
                           <p>Notifikasi</p>
                       </a>
                   </li>
+                  @if ($role == 'super_admin')
+                      <li class="nav-item">
+                          <a href="{{ route('banks.index') }}"
+                              class="nav-link {{ Request::is('dashboard/banks*') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-university"></i>
+                              <p>
+                                  Rekening Bank
+                              </p>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="{{ route('admins.index') }}"
+                              class="nav-link {{ Request::is('dashboard/admins*') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-users-cog"></i>
+                              <p>
+                                  Manajemen Admin
+                              </p>
+                          </a>
+                      </li>
+                      <li class="nav-item">
+                          <a href="{{ route('reports.index') }}"
+                              class="nav-link {{ Request::is('dashboard/reports*') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-file-alt"></i>
+                              <p>
+                                  Laporan
+                              </p>
+                          </a>
+                      </li>
+                  @endif
                   <li class="nav-item
                         @if (Request::is('dashboard/classes*') |
                                 Request::is('dashboard/trainers*') |
@@ -116,13 +152,13 @@
                       </li>
                       <li
                           class="nav-item
-                            @if (Request::is('dashboard/products*') ||
+                            @if (Request::is('dashboard/product-catalogues*') ||
                                     Request::is('dashboard/product-stocks*') ||
                                     Request::is('dashboard/product-categories*')) menu-open @endif">
 
                           <a href="#"
                               class="nav-link
-                            @if (Request::is('dashboard/products*') ||
+                            @if (Request::is('dashboard/product-catalogues*') ||
                                     Request::is('dashboard/product-stocks*') ||
                                     Request::is('dashboard/product-categories*')) active @endif">
                               <i class="nav-icon fas fa-store"></i>
@@ -181,17 +217,7 @@
                           </a>
                       </li>
                   @endif
-                  @if ($role = 'super_admin')
-                      <li class="nav-item">
-                          <a href="{{ route('banks.index') }}"
-                              class="nav-link {{ Request::is('dashboard/banks*') ? 'active' : '' }}">
-                              <i class="nav-icon fas fa-university"></i>
-                              <p>
-                                  Rekening Bank
-                              </p>
-                          </a>
-                      </li>
-                  @endif
+
                   {{-- <li class="nav-item">
                       <a href="#" class="nav-link {{ Request::is('dashboard/messages*') ? 'active' : '' }}">
                           <i class="nav-icon fas fa-envelope"></i>

@@ -5,7 +5,7 @@
           <li class="nav-item">
               <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
-          <li class="nav-item d-none d-sm-inline-block">
+          {{-- <li class="nav-item d-none d-sm-inline-block">
               <a href="{{ route('home') }}" class="nav-link">Homepage</a>
           </li>
           <li class="nav-item d-none d-sm-inline-block @if (Request::is('dashboard')) active @endif">
@@ -19,7 +19,7 @@
               <li class="nav-item d-none d-sm-inline-block @if (Request::is('dashboard/memberships*')) active @endif">
                   <a href="{{ route('memberships.index') }}" class="nav-link">Paket Membership</a>
               </li>
-          @endif
+          @endif --}}
           {{-- <li class="nav-item d-none d-sm-inline-block @if (Request::is('dashboard/banks*')) active @endif">
               <a href="" class="nav-link">Rekening Bank</a>
           </li>

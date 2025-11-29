@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Rey Fitnes | Sign In</title>
+    <title>Rey Fitnes | Masuk</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <!-- Bootstrap & Template CSS -->
@@ -164,7 +164,7 @@
                     alt="Rey Fitnes">
             </a>
 
-            <h2 class="mt-4">Sign In</h2>
+            <h2 class="mt-4">Masuk</h2>
             <form action="{{ route('login') }}" method="POST">
                 @csrf
                 <div class="form-group mb-3">
@@ -195,14 +195,20 @@
                 </div>
                 <button type="submit" class="btn btn-login w-100">Login</button>
             </form>
+            <div class="row mt-3">
+                <div class="col">
+                    <a href="{{ route('password.request') }}" style="color:#f36100;">
+                        Lupa Password?
+                    </a>
+                </div>
+            </div>
 
             <div class="row login-footer mt-3">
                 <div class="col">
-                    <a href="{{ route('home') }}" class="btn btn-home mt-3 w-100">Back
-                        to Home</a>
+                    <a href="{{ route('home') }}" class="btn btn-home mt-3 w-100">Kembali</a>
                 </div>
                 <div class="col">
-                    <a href="{{ route('register') }}" class="btn btn-home mt-3 w-100">Sign Up</a>
+                    <a href="{{ route('register') }}" class="btn btn-home mt-3 w-100">Daftar</a>
                 </div>
 
             </div>

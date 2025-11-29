@@ -89,12 +89,13 @@
         }
     </style>
 
+
     @yield('css')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     @php
-        $role = Auth()->user()->role;
+        $role = auth()->user()->role;
     @endphp
 
     <div class="wrapper">

@@ -18,6 +18,7 @@ class UserController extends Controller implements HasMiddleware
             new Middleware('role:super_admin,admin')
         ];
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -48,6 +49,7 @@ class UserController extends Controller implements HasMiddleware
             'birth_date' => 'required|date|before:today',
             'phone' => 'required|regex:/^[0-9+\s\-]{8,15}$/',
             'image' => 'image|file|max:5120|nullable|mimes:jpg,jpeg,png,webp',
+            'role' => 'nullable|string'
         ]);
 
         $rawPassword = $request->password;
@@ -63,12 +65,18 @@ class UserController extends Controller implements HasMiddleware
         // Kirim email
         Mail::to($user->email)->queue(new UserCreatedMail($user, $rawPassword));
 
-        if($request->member){
-            return redirect()->route('members.index')->with('success', 'Akun berhasil dibuat!');
+        if (!empty($validatedData['role']) && $validatedData['role'] === 'admin')
+        {
+            return redirect()->route('admins.index')->with('success', 'Akun berhasil dibuat!');
+        } else {
+            if($request->member){
+                return redirect()->route('members.index')->with('success', 'Akun berhasil dibuat!');
+            }
+            else {
+                return redirect()->route('users.index')->with('success', 'Akun berhasil dibuat!');
+            }
         }
-        else {
-            return redirect()->route('users.index')->with('success', 'Akun berhasil dibuat!');
-        }
+
     }
 
     /**
