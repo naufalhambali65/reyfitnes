@@ -116,10 +116,10 @@
                     <div class="gt-text">
                         <i class="fa fa-mobile"></i>
                         <ul>
-                            <li><a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                            <li><a href="https://api.whatsapp.com/send?phone=6282394880007&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
                                     "
-                                    target="_blank" style="text-decoration: none" class="text-white">+62
-                                    851-8547-1994</a></li>
+                                    target="_blank" style="text-decoration: none" class="text-white">+62 823 9488 0007</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

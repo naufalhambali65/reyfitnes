@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('class_bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gym_class_id')->constrained();
-            $table->foreignId('member_id')->constrained();
+            $table->foreignId('gym_class_id')->constrained()->onDelete('cascade');
+            $table->foreignId('member_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->unsignedBigInteger('created_by')->nullable();

@@ -80,39 +80,41 @@
     <!-- ChoseUs Section End -->
 
     <!-- Classes Section Begin -->
-    <section class="classes-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <span>Kelas Kami</span>
-                        <h2>APA YANG KAMI TAWARKAN</h2>
+    @if ($gymClasses->count() > 0)
+        <section class="classes-section spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <span>Kelas Kami</span>
+                            <h2>APA YANG KAMI TAWARKAN</h2>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                @foreach ($gymClasses as $class)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="class-item">
-                            <div class="ci-pic">
-                                <img src="{{ asset('storage/' . $class->image) }}" alt="{{ $class->name }}"
-                                    style="
+                <div class="row">
+                    @foreach ($gymClasses as $class)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="class-item">
+                                <div class="ci-pic">
+                                    <img src="{{ asset('storage/' . $class->image) }}" alt="{{ $class->name }}"
+                                        style="
                                     width: 100%;
                                     height: 400px;
                                     object-fit: cover;
                                 ">
-                            </div>
-                            <div class="ci-text">
-                                <span>{{ $class->category->name }}</span>
-                                <h5>{{ $class->name }}</h5>
-                                {{-- <a href="#"><i class="fa fa-angle-right"></i></a> --}}
+                                </div>
+                                <div class="ci-text">
+                                    <span>{{ $class->category->name }}</span>
+                                    <h5>{{ $class->name }}</h5>
+                                    {{-- <a href="#"><i class="fa fa-angle-right"></i></a> --}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
 
     <!-- Classes Section End -->
 
@@ -124,7 +126,7 @@
                     <div class="bs-text">
                         <h2>Registrasi Sekarang!</h2>
                         <div class="bt-tips">Dimana kesehatan, keindahan, dan kebugaran bertemu.</div>
-                        <a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                        <a href="https://api.whatsapp.com/send?phone=6282394880007&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
                                 "
                             class="primary-btn btn-normal" target="_blank">Buat Janji</a>
                     </div>
@@ -135,51 +137,53 @@
     <!-- Banner Section End -->
 
     <!-- Pricing Section Begin -->
-    <section class="pricing-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <span>Paket Membership</span>
-                        <h2>Pilih Paket Membership Anda!</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-
-                @foreach ($memberships as $membership)
-                    <div class="col-lg-4 col-md-8">
-                        <div class="ps-item">
-                            <h3 class="mb-3">{{ $membership->name }}</h3>
-
-                            <div class=" mb-2">
-                                <h3 style="color: rgba(243, 97, 0);">
-                                    {{ $membership->price_formatted }}
-                                </h3>
-                            </div>
-
-                            <div class=" mb-2">
-                                {!! $membership->features !!}
-                            </div>
-
-                            <a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
-"
-                                class="primary-btn pricing-btn w-100 text-center" target="_blank">
-                                Daftar Sekarang!
-                            </a>
+    @if ($memberships->count() > 0)
+        <section class="pricing-section spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title">
+                            <span>Paket Membership</span>
+                            <h2>Pilih Paket Membership Anda!</h2>
                         </div>
                     </div>
-                @endforeach
+                </div>
+                <div class="row justify-content-center">
+
+                    @foreach ($memberships as $membership)
+                        <div class="col-lg-4 col-md-8">
+                            <div class="ps-item">
+                                <h3 class="mb-3">{{ $membership->name }}</h3>
+
+                                <div class=" mb-2">
+                                    <h3 style="color: rgba(243, 97, 0);">
+                                        {{ $membership->price_formatted }}
+                                    </h3>
+                                </div>
+
+                                <div class=" mb-2">
+                                    {!! $membership->features !!}
+                                </div>
+
+                                <a href="https://api.whatsapp.com/send?phone=6282394880007&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                                "
+                                    class="primary-btn pricing-btn w-100 text-center" target="_blank">
+                                    Daftar Sekarang!
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
     <!-- Pricing Section End -->
 
     <!-- Gallery Section Begin -->
     <div class="gallery-section">
         <div class="gallery">
             <div class="grid-sizer"></div>
-            <div class="gs-item grid-wide set-bg" data-setbg="/homepage_assets/img/reyfitnes/01.jpg">
+            <div class="gs-item grid-wide set-bg" data-setbg="/homepage_assets/img/gallery/gallery-1.jpg">
                 <a href="/homepage_assets/img/reyfitnes/01.jpg" class="thumb-icon image-popup"><i
                         class="fa fa-picture-o"></i></a>
             </div>
@@ -208,37 +212,39 @@
     <!-- Gallery Section End -->
 
     <!-- Team Section Begin -->
-    <section class="team-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="team-title">
-                        <div class="section-title">
-                            <span>INSTRUKTUR KAMI</span>
-                            <h2>BERLATIH DENGAN INSTRUKTUR PROFESIONAL</h2>
-                        </div>
-                        <a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+    @if ($trainers->count() > 0)
+        <section class="team-section spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="team-title">
+                            <div class="section-title">
+                                <span>INSTRUKTUR KAMI</span>
+                                <h2>BERLATIH DENGAN INSTRUKTUR PROFESIONAL</h2>
+                            </div>
+                            <a href="https://api.whatsapp.com/send?phone=6282394880007&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
                             "
-                            class="primary-btn btn-normal appoinment-btn">BUAT JANJI</a>
+                                class="primary-btn btn-normal appoinment-btn">BUAT JANJI</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ts-slider owl-carousel center">
+                        @foreach ($trainers as $trainer)
+                            <div class="col-lg-4">
+                                <div class="ts-item set-bg" data-setbg="{{ asset('storage/' . $trainer->user->image) }}">
+                                    <div class="ts_text">
+                                        <h4>{{ ucwords($trainer->user->name) }}</h4>
+                                        <span style="text-white">Instruktur Gym</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="ts-slider owl-carousel center">
-                    @foreach ($trainers as $trainer)
-                        <div class="col-lg-4">
-                            <div class="ts-item set-bg" data-setbg="{{ asset('storage/' . $trainer->user->image) }}">
-                                <div class="ts_text">
-                                    <h4>{{ ucwords($trainer->user->name) }}</h4>
-                                    <span style="text-white">Instruktur Gym</span>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    @endif
     <!-- Team Section End -->
 
     <!-- Get In Touch Section Begin -->
@@ -262,10 +268,10 @@
                     <div class="gt-text">
                         <i class="fa fa-mobile"></i>
                         <ul>
-                            <li><a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                            <li><a href="https://api.whatsapp.com/send?phone=6282394880007&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
                                     "
-                                    target="_blank" style="text-decoration: none" class="text-white">+62
-                                    851-8547-1994</a></li>
+                                    target="_blank" style="text-decoration: none" class="text-white">+62 823 9488
+                                    0007</a></li>
                         </ul>
                     </div>
                 </div>

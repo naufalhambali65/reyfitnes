@@ -43,7 +43,7 @@
                             <div class="col-lg-6 col-md-12">
                                 <div
                                     class="p-3 border rounded shadow-sm d-flex gap-3 align-items-center
-                                    {{ $product->stock <= 0 ? 'border-danger' : ($product->stock == $product->min_stock ? 'border-warning' : '') }}">
+                                    {{ $product->stock <= 0 ? 'border-danger' : ($product->stock <= $product->min_stock ? 'border-warning' : '') }}">
 
                                     <div style="width:100px;">
                                         @if ($product->image)

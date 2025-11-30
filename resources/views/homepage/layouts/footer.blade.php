@@ -19,11 +19,11 @@
                     </p>
 
                     <div class="fa-social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        {{-- <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-envelope-o"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a> --}}
+                        <a href="https://www.instagram.com/rey.fitnes/"><i class="fa fa-instagram"></i></a>
+                        <a href="mailto:reyfitnes.cs@gmail.com"><i class="fa fa-envelope-o"></i></a>
                     </div>
                 </div>
             </div>
@@ -33,10 +33,10 @@
                 <div class="fs-widget">
                     <h4>Tautan Berguna</h4>
                     <ul>
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Kelas</a></li>
-                        <li><a href="#">Kontak</a></li>
+                        <li><a href="{{ route('login') }}">Masuk</a></li>
+                        <li><a href="{{ route('about') }}">Tentang Kami</a></li>
+                        <li><a href="{{ route('bmi') }}">Kalkulator BMI</a></li>
+                        <li><a href="{{ route('contact') }}">Kontak</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,9 +56,9 @@
                         </li>
                         <li class="mt-3">
                             <i class="fa fa-phone text-white"></i>
-                            <a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                            <a href="https://api.whatsapp.com/send?phone=6282394880007&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
 "
-                                target="_blank">+62 851-8547-1994</a>
+                                target="_blank">+62 823 9488 0007</a>
                         </li>
                     </ul>
                 </div>

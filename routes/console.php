@@ -64,7 +64,7 @@ Schedule::call(function () {
     }
 
     Log::info("Expired memberships processed: {$expiredMemberships->count()}");
-})->daily();
+})->everyMinute();
 
 // === 2. Membership yang akan expired dalam 5 hari ===
 Schedule::call(function () {
@@ -139,7 +139,7 @@ Schedule::call(function () {
     }
 
     Log::info("Membership expiring in 5 days processed: {$expiringMemberships->count()}");
-})->daily();
+})->everyMinute();
 
 // === 3. Notifikasi Kelas yang Berlangsung Hari Ini ===
 Schedule::call(function () {

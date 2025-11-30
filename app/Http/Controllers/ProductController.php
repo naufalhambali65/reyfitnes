@@ -94,6 +94,7 @@ class ProductController extends Controller implements HasMiddleware
     /**
      * Display the specified resource.
      */
+
     public function show(Product $product_stock)
     {
         $title = 'Detail Produk';
@@ -111,29 +112,42 @@ class ProductController extends Controller implements HasMiddleware
                 ->count();
         })->reverse()->values();
 
+        // PERBAIKAN: Hitung profit dari payment_items (bukan stock_logs)
         $monthlyProfits = collect(range(0, 11))->map(function ($i) use ($product) {
+
             $month = now()->subMonths($i)->month;
             $year = now()->subMonths($i)->year;
 
-            // Ambil semua stock logs keluar untuk bulan ini
-            $sales = $product->stockLogs()
-                ->where('type', 'out')
-                ->whereMonth('created_at', $month)
-                ->whereYear('created_at', $year)
+            // Ambil payment_item untuk produk ini di bulan tsb
+            $sales = \App\Models\PaymentItem::where('item_type', 'App\\Models\\Product')
+                ->where('item_id', $product->id)
+                ->whereMonth('payment_items.created_at', $month)
+                ->whereYear('payment_items.created_at', $year)
+                ->join('payments', 'payment_items.payment_id', '=', 'payments.id')
+                ->where('payments.status', 'completed') // hanya transaksi sukses
+                ->select('payment_items.quantity', 'payment_items.price')
                 ->get();
 
             // Hitung keuntungan
-            $profit = $sales->sum(function ($log) use ($product) {
-                return $log->quantity * ($product->price - $product->cost);
+            $profit = $sales->sum(function ($item) use ($product) {
+                return $item->quantity * ($item->price - $product->cost);
             });
 
             return $profit;
+
         })->reverse()->values();
 
 
-        return view('dashboard.product-stocks.show',  compact('title', 'product', 'stockLogs', 'months', 'stockCounts', 'monthlyProfits'));
-
+        return view('dashboard.product-stocks.show', compact(
+            'title',
+            'product',
+            'stockLogs',
+            'months',
+            'stockCounts',
+            'monthlyProfits'
+        ));
     }
+
 
 
     /**
@@ -167,7 +181,7 @@ class ProductController extends Controller implements HasMiddleware
         'description' => 'nullable|string',
         'image'       => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
         'status'      => 'required|in:available,unavailable',
-    ]);
+        ]);
 
     if ($request->name != $product_stock->name) {
             $validatedData['slug'] = generateUniqueSlug(Product::class, $validatedData['name']);
@@ -197,6 +211,51 @@ class ProductController extends Controller implements HasMiddleware
     return redirect()
         ->route('product-stocks.index')
         ->with('success', 'Produk berhasil diupdate');
+    }
+
+    public function stockAdjust(Request $request)
+    {
+        $validatedData = $request->validate([
+        'product_slug' => 'required|exists:products,slug',
+        'quantity'     => 'required|integer|min:1',
+        'note'        => 'nullable|string|max:255',
+        ]);
+
+        $product = Product::where('slug', $validatedData['product_slug'])->first();
+
+        if($request->action == 'add') {
+            $stock = $product->stock + $validatedData['quantity'];
+            $product->update([
+                'stock' => $stock,
+                'status' => 'available'
+            ]);
+
+            $logsData = [
+            'product_id' => $product->id,
+            'quantity' => $validatedData['quantity'],
+            'type' => 'in'
+            ];
+
+            StockLog::create($logsData);
+        } else if ($request->action == 'subtract') {
+            $stock = $product->stock - $validatedData['quantity'];
+            if ($stock < 0) {
+                return back()->with('error', 'Stok tidak boleh kurang dari 0.');
+            }
+            $status = $stock == 0 ? 'unavailable' : 'available';
+            $product->update(['stock' => $stock, 'status' => $status]);
+
+            $logsData = [
+            'product_id' => $product->id,
+            'quantity' => $validatedData['quantity'],
+            'type' => 'out'
+            ];
+            StockLog::create($logsData);
+        }
+
+        return redirect()
+        ->route('product-stocks.index')
+        ->with('success', 'Stock berhasil diupdate');
     }
 
     /**

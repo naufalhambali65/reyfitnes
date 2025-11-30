@@ -44,7 +44,11 @@
                           <a href="{{ route('notifications.index') }}"
                               class="nav-link {{ Request::is('dashboard/notifications*') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-bell"></i>
-                              <p>Notifikasi</p>
+                              <p>Notifikasi
+                                  @if ($newNotificationCount)
+                                      <span class="badge badge-danger right">{{ $newNotificationCount }}</span>
+                                  @endif
+                              </p>
                           </a>
                       </li>
                   @endif
@@ -245,9 +249,9 @@
                               <i class="nav-icon fas fa-envelope"></i>
                               <p>
                                   Pesan
-                                  {{-- @if ($newMessage)
-                                      <span class="badge badge-danger right">{{ $newMessage }}</span>
-                                  @endif --}}
+                                  @if ($newMessageCount)
+                                      <span class="badge badge-danger right">{{ $newMessageCount }}</span>
+                                  @endif
                               </p>
                           </a>
                       </li>

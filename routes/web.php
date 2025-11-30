@@ -64,6 +64,7 @@ Route::resource('/dashboard/class-bookings', ClassBookingController::class);
 Route::put('/trainers/{trainer}/toggle-status',[TrainerController::class, 'toggleStatus'])->name('trainers.toggleStatus');
 Route::resource('/dashboard/trainers', TrainerController::class);
 
+Route::post('/dashboard/product-stocks/adjust', [ProductController::class, 'stockAdjust'])->name('product-stocks.adjust');
 Route::resource('/dashboard/product-stocks', ProductController::class);
 Route::resource('/dashboard/product-categories', ProductCategoryController::class);
 Route::resource('/dashboard/product-units', ProductUnitController::class);

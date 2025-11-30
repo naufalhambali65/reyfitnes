@@ -30,7 +30,7 @@ class Member extends Model
     }
     public function latestMembership(): HasOne
     {
-        return $this->hasOne(MemberMembership::class)->latest('start_date');
+        return $this->hasOne(MemberMembership::class)->latest('created_at');
     }
 
     public function memberMemberships(): HasMany

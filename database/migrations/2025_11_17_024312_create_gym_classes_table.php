@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('gym_classes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trainer_id')->constrained();
-            $table->foreignId('membership_id')->constrained();
+            $table->foreignId('trainer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('membership_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained('class_categories')->onDelete('cascade');
             $table->string('slug')->unique();
             $table->string('name');

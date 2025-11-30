@@ -32,10 +32,10 @@
                         <i class="fa fa-search"></i>
                     </div> --}}
                     <div class="to-social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        {{-- <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a> --}}
+                        <a href="https://www.instagram.com/rey.fitnes/"><i class="fa fa-instagram"></i></a>
                     </div>
                 </div>
             </div>
