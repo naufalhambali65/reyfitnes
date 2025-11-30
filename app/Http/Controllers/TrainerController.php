@@ -18,7 +18,12 @@ class TrainerController extends Controller implements HasMiddleware
     {
         return [
             'auth',
+
+            // super_admin & admin boleh akses semua
             new Middleware('role:super_admin,admin'),
+
+            // guest & member hanya bisa akses index/show
+            new Middleware('role:guest,member,super_admin,admin', only: ['index', 'show']),
         ];
     }
     /**

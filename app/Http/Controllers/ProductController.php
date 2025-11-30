@@ -111,7 +111,27 @@ class ProductController extends Controller implements HasMiddleware
                 ->count();
         })->reverse()->values();
 
-        return view('dashboard.product-stocks.show',  compact('title', 'product', 'stockLogs', 'months', 'stockCounts'));
+        $monthlyProfits = collect(range(0, 11))->map(function ($i) use ($product) {
+            $month = now()->subMonths($i)->month;
+            $year = now()->subMonths($i)->year;
+
+            // Ambil semua stock logs keluar untuk bulan ini
+            $sales = $product->stockLogs()
+                ->where('type', 'out')
+                ->whereMonth('created_at', $month)
+                ->whereYear('created_at', $year)
+                ->get();
+
+            // Hitung keuntungan
+            $profit = $sales->sum(function ($log) use ($product) {
+                return $log->quantity * ($product->price - $product->cost);
+            });
+
+            return $profit;
+        })->reverse()->values();
+
+
+        return view('dashboard.product-stocks.show',  compact('title', 'product', 'stockLogs', 'months', 'stockCounts', 'monthlyProfits'));
 
     }
 

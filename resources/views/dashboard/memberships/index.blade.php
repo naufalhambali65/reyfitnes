@@ -7,11 +7,13 @@
                     <h2 class="card-title mb-0 fw-bold">
                         <i class="fas fa-tags me-2 text-primary"></i> Semua Paket Membership
                     </h2>
-                    <div class="ms-auto">
-                        <a href="{{ route('memberships.create') }}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-plus-circle me-1"></i> Tambah Paket
-                        </a>
-                    </div>
+                    @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                        <div class="ms-auto">
+                            <a href="{{ route('memberships.create') }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-plus-circle me-1"></i> Tambah Paket
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -67,19 +69,21 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
-                                            <a href="{{ route('memberships.edit', $membership->slug) }}">
-                                                <button class="btn btn-primary">
-                                                    <i class="fas fa-pencil-alt "></i>
-                                                </button>
-                                            </a>
-                                            <form action="{{ route('memberships.destroy', $membership->slug) }}"
-                                                method="post" class="d-inline">
-                                                @method('delete')
-                                                @csrf
-                                                <button type="button" class="btn btn-danger border-0 btn-hapus">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
+                                            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                                                <a href="{{ route('memberships.edit', $membership->slug) }}">
+                                                    <button class="btn btn-primary">
+                                                        <i class="fas fa-pencil-alt "></i>
+                                                    </button>
+                                                </a>
+                                                <form action="{{ route('memberships.destroy', $membership->slug) }}"
+                                                    method="post" class="d-inline">
+                                                    @method('delete')
+                                                    @csrf
+                                                    <button type="button" class="btn btn-danger border-0 btn-hapus">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </td>
 
                                     </tr>

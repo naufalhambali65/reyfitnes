@@ -133,7 +133,7 @@ class PaymentController extends Controller implements HasMiddleware
                             'title'   => 'Stok Produk Menipis',
                             'type'    => 'warning',
                             'icon'    => 'fas fa-box-open',
-                            'link'    => '/dashboard/products/' . $product->id,
+                            'link'    => '/dashboard/product-stocks/' . $product->id,
                             'message' => "Stok produk <strong>{$product->name}</strong> tersisa {$product->stock} item (batas minimum: {$product->min_stock}).
                                         Segera lakukan restock!",
                         ]);
@@ -224,7 +224,7 @@ class PaymentController extends Controller implements HasMiddleware
                     $memberMembership->update($data);
                     Member::where('user_id', $payment->user_id)->update(['status' => 'active']);
 
-                    Mail::to($payment->user->email)->queue(new UserQrCodeMail($payment->user, $filename));
+                    Mail::to($payment->user->email)->send(new UserQrCodeMail($payment->user, $filename));
 
                 $message ='Pembayaran Selesai!';
             } else if($validatedData['status'] == 'failed'){
@@ -263,7 +263,7 @@ class PaymentController extends Controller implements HasMiddleware
         $payment->update($validatedData);
 
         if($payment->user->role == 'guest' || $payment->user->role == 'member') {
-            Mail::to($payment->user->email)->queue(new PaymentReceiptMail($payment));
+            Mail::to($payment->user->email)->send(new PaymentReceiptMail($payment));
         }
 
         return redirect( route('payments.show', $payment->id) )->with('success', $message);

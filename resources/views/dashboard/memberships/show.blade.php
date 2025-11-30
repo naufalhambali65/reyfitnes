@@ -16,56 +16,61 @@
                         <a href="{{ route('memberships.index') }}" class="btn btn-sm btn-secondary">
                             <i class="fas fa-arrow-left"></i> Kembali
                         </a>
-                        <a href="{{ route('memberships.edit', $membership->slug) }}" class="btn btn-sm btn-warning">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
+                        @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                            <a href="{{ route('memberships.edit', $membership->slug) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
 
             {{-- Top Row: Price card + Chart --}}
-            <div class="row mb-3">
-                <div class="col-lg-4 col-md-5 col-12 mb-3">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body text-center">
-                            <div class="mb-2 text-muted small">Harga</div>
-                            <h2 class="fw-bold text-success">{{ $membership->price_formatted }}</h2>
+            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                <div class="row mb-3">
+                    <div class="col-lg-4 col-md-5 col-12 mb-3">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body text-center">
+                                <div class="mb-2 text-muted small">Harga</div>
+                                <h2 class="fw-bold text-success">{{ $membership->price_formatted }}</h2>
 
-                            <div class="row mt-3">
-                                <div class="col-6 border-end">
-                                    <div class="small text-muted">Total Customer</div>
-                                    <div class="fw-semibold">{{ $totalCustomer }}</div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="small text-muted">Customer Aktif</div>
-                                    <div class="fw-semibold text-success">{{ $totalActiveCustomer }}</div>
-                                </div>
-                            </div>
-
-                            <div class="mt-3">
-                                <div class="small text-muted">Active Rate</div>
-                                <div class="progress" style="height:10px;">
-                                    <div class="progress-bar bg-success" role="progressbar"
-                                        style="width: {{ $progressPercent }}%" aria-valuenow="{{ $progressPercent }}"
-                                        aria-valuemin="0" aria-valuemax="100">
+                                <div class="row mt-3">
+                                    <div class="col-6 border-end">
+                                        <div class="small text-muted">Total Customer</div>
+                                        <div class="fw-semibold">{{ $totalCustomer }}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="small text-muted">Customer Aktif</div>
+                                        <div class="fw-semibold text-success">{{ $totalActiveCustomer }}</div>
                                     </div>
                                 </div>
-                                <small class="text-muted">{{ $progressPercent }}% active</small>
+
+                                <div class="mt-3">
+                                    <div class="small text-muted">Active Rate</div>
+                                    <div class="progress" style="height:10px;">
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: {{ $progressPercent }}%" aria-valuenow="{{ $progressPercent }}"
+                                            aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">{{ $progressPercent }}% active</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 col-md-7 col-12 mb-3">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <h6 class="fw-semibold mb-3"><i class="fas fa-chart-line me-1"></i> Active per Bulan (12
+                                    bln)
+                                </h6>
+                                <canvas id="membersChart" style="width:100%;max-height:260px;"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-8 col-md-7 col-12 mb-3">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body">
-                            <h6 class="fw-semibold mb-3"><i class="fas fa-chart-line me-1"></i> Active per Bulan (12 bln)
-                            </h6>
-                            <canvas id="membersChart" style="width:100%;max-height:260px;"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endif
 
             {{-- Informasi paket --}}
             <div class="card shadow-sm mb-3">
@@ -111,7 +116,7 @@
                 <div class="row g-0">
 
                     {{-- Benefit / Fitur --}}
-                    <div class="col-md-6">
+                    <div class="@if ($classes->count() > 0) col-md-6 @else col-md-12 @endif">
                         <div class="card-body">
                             <h5 class="fw-bold mb-3">
                                 <i class="fas fa-star me-1"></i>
@@ -166,63 +171,66 @@
                 </div>
             </div>
 
-            {{-- Table --}}
-            <div class="card">
-                <div class="card-header d-flex align-items-center">
-                    <h2 class="card-title mb-0 fw-bold">
-                        <i class="fas fa-table me-2"></i> Daftar Pembeli Paket
-                    </h2>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="dataTable" class="table table-bordered table-striped">
-                            <thead>
-                                <tr class="text-center align-middle">
-                                    <th>No</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Start</th>
-                                    <th>End</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($membersList as $member)
-                                    <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="text-center align-middle">{{ $member->user->name }}</td>
-                                        <td class="text-center align-middle">{{ $member->user->email }}</td>
-                                        <td class="text-center align-middle">{{ $member->user->phone ?? '-' }}</td>
-                                        <td class="align-middle text-center">
-                                            {{ \Carbon\Carbon::parse($member->start_date)->translatedFormat('d M Y') }}
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            {{ \Carbon\Carbon::parse($member->end_date)->translatedFormat('d M Y') }}</td>
-                                        <td class="align-middle text-center">
-                                            @if ($member->status == 'active')
-                                                <span class="badge bg-success">Aktif</span>
-                                            @elseif($member->status == 'pending')
-                                                <span class="badge bg-warning text-dark">Menunggu</span>
-                                            @elseif ($member->status == 'expired')
-                                                <span class="badge bg-secondary">Kadaluarsa</span>
-                                            @else
-                                                <span class="badge bg-danger">Gagal</span>
-                                            @endif
-                                            {{-- <span
+            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                {{-- Table --}}
+                <div class="card">
+                    <div class="card-header d-flex align-items-center">
+                        <h2 class="card-title mb-0 fw-bold">
+                            <i class="fas fa-table me-2"></i> Daftar Pembeli Paket
+                        </h2>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="dataTable" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr class="text-center align-middle">
+                                        <th>No</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Start</th>
+                                        <th>End</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($membersList as $member)
+                                        <tr>
+                                            <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                            <td class="text-center align-middle">{{ $member->user->name }}</td>
+                                            <td class="text-center align-middle">{{ $member->user->email }}</td>
+                                            <td class="text-center align-middle">{{ $member->user->phone ?? '-' }}</td>
+                                            <td class="align-middle text-center">
+                                                {{ \Carbon\Carbon::parse($member->start_date)->translatedFormat('d M Y') }}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                {{ \Carbon\Carbon::parse($member->end_date)->translatedFormat('d M Y') }}
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                @if ($member->status == 'active')
+                                                    <span class="badge bg-success">Aktif</span>
+                                                @elseif($member->status == 'pending')
+                                                    <span class="badge bg-warning text-dark">Menunggu</span>
+                                                @elseif ($member->status == 'expired')
+                                                    <span class="badge bg-secondary">Kadaluarsa</span>
+                                                @else
+                                                    <span class="badge bg-danger">Gagal</span>
+                                                @endif
+                                                {{-- <span
                                                 class="badge {{ $member->status == 'active' ? 'bg-success' : ($member->status == 'pending' ? 'bg-warning text-dark' : ($member->status == 'expired' ? 'bg-secondary' : 'bg-danger')) }}">
                                                 {{ ucfirst($member->status = 'active' ? 'Aktif' : 'Nonaktif') }}
                                             </span> --}}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.card-body -->
-            </div>
+            @endif
 
         </div>
     </div>

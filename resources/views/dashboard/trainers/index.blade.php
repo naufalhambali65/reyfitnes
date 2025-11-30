@@ -7,11 +7,13 @@
                     <h2 class="card-title mb-0 fw-bold">
                         <i class="fas fa-users me-2 text-primary"></i> Semua Anggota
                     </h2>
-                    <div class="ms-auto">
-                        <a href="{{ route('trainers.create') }}" class="btn btn-sm btn-primary">
-                            <i class="fas fa-plus-circle me-1"></i> Tambah Trainer
-                        </a>
-                    </div>
+                    @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                        <div class="ms-auto">
+                            <a href="{{ route('trainers.create') }}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-plus-circle me-1"></i> Tambah Trainer
+                            </a>
+                        </div>
+                    @endif
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -71,19 +73,21 @@
                                                     <i class="fas fa-eye"></i>
                                                 </button>
                                             </a>
-                                            <form action="{{ route('trainers.toggleStatus', $trainer->id) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                @method('PUT')
+                                            @if (auth()->user()->role == 'admin' || auth()->user()->role == 'super_admin')
+                                                <form action="{{ route('trainers.toggleStatus', $trainer->id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PUT')
 
-                                                <button type="submit" class="btn btn-warning">
-                                                    @if ($trainer->status == 'active')
-                                                        <i class="fas fa-toggle-off"></i>
-                                                    @else
-                                                        <i class="fas fa-toggle-on"></i>
-                                                    @endif
-                                                </button>
-                                            </form>
+                                                    <button type="submit" class="btn btn-warning">
+                                                        @if ($trainer->status == 'active')
+                                                            <i class="fas fa-toggle-off"></i>
+                                                        @else
+                                                            <i class="fas fa-toggle-on"></i>
+                                                        @endif
+                                                    </button>
+                                                </form>
+                                            @endif
 
                                             {{-- <a href="{{ route('trainers.status', $trainer->id) }}">
                                                 <button class="btn btn-primary">

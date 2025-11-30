@@ -63,7 +63,7 @@ class UserController extends Controller implements HasMiddleware
         $user = User::create($validatedData);
 
         // Kirim email
-        Mail::to($user->email)->queue(new UserCreatedMail($user, $rawPassword));
+        Mail::to($user->email)->send(new UserCreatedMail($user, $rawPassword));
 
         if (!empty($validatedData['role']) && $validatedData['role'] === 'admin')
         {

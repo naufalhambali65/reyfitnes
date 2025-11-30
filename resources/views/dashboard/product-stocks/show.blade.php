@@ -164,14 +164,14 @@
         (function() {
             const ctx = document.getElementById('stockChart').getContext('2d');
             const labels = @json($months);
-            const data = @json($stockCounts);
+            const data = @json($monthlyProfits);
 
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Pergerakan Stok',
+                        label: 'Keuntungan',
                         data: data,
                         fill: true,
                         tension: 0.3,

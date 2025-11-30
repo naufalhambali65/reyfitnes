@@ -44,7 +44,7 @@
                                         <td class="text-center align-middle">
                                             <span
                                                 class="text-capitalize fw-semibold
-                                                @if ($product->stock == $product->min_stock) text-warning
+                                                @if ($product->stock <= $product->min_stock && $product->stock > 0) text-warning
                                                 @elseif($product->stock == 0)
                                                 text-danger
                                                 @else text-success @endif">

@@ -123,7 +123,7 @@
                                     <tr class="text-center align-middle">
                                         <td>{{ $class->name }}</td>
                                         <td>
-                                            <a href="{{ route('classes.show', $class->id) }}">
+                                            <a href="{{ route('classes.show', $class->slug) }}">
                                                 <button class="btn btn-success">
                                                     <i class="fas fa-eye"></i>
                                                 </button>

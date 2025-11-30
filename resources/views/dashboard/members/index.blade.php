@@ -51,15 +51,15 @@
                                         </td>
 
                                         <td class="text-center align-middle fw-semibold">
-                                            {{ $member->latestMembership->membership->name }}
+                                            {{ $member->latestMembership->membership->name ?? '' }}
                                         </td>
 
                                         <td class="text-center align-middle">
-                                            @if ($member->latestMembership->status == 'active')
+                                            @if ($member->latestMembership && $member->latestMembership->status == 'active')
                                                 <span class="badge px-3 py-2 bg-success text-white">
                                                     Aktif
                                                 </span>
-                                            @elseif ($member->latestMembership->status == 'expired')
+                                            @elseif ($member->latestMembership && $member->latestMembership->status == 'expired')
                                                 <span class="badge px-3 py-2 bg-danger text-white">
                                                     Kadaluarsa
                                                 </span>

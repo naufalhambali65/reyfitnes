@@ -39,13 +39,15 @@
                       </a>
                   </li>
                   <li class="nav-header">Menu</li>
-                  <li class="nav-item">
-                      <a href="{{ route('notifications.index') }}"
-                          class="nav-link {{ Request::is('dashboard/notifications*') ? 'active' : '' }}">
-                          <i class="nav-icon fas fa-bell"></i>
-                          <p>Notifikasi</p>
-                      </a>
-                  </li>
+                  @if ($role != 'guest')
+                      <li class="nav-item">
+                          <a href="{{ route('notifications.index') }}"
+                              class="nav-link {{ Request::is('dashboard/notifications*') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-bell"></i>
+                              <p>Notifikasi</p>
+                          </a>
+                      </li>
+                  @endif
                   @if ($role == 'super_admin')
                       <li class="nav-item">
                           <a href="{{ route('banks.index') }}"
@@ -75,78 +77,99 @@
                           </a>
                       </li>
                   @endif
-                  <li class="nav-item
-                        @if (Request::is('dashboard/classes*') |
-                                Request::is('dashboard/trainers*') |
-                                Request::is('dashboard/class-categories*') |
-                                Request::is('dashboard/class-bookings*')) menu-open @endif">
-                      <a href="#"
-                          class="nav-link
-                            @if (Request::is('dashboard/classes*') |
-                                    Request::is('dashboard/trainers*') |
-                                    Request::is('dashboard/class-categories*') |
-                                    Request::is('dashboard/class-bookings*')) active @endif">
-                          <i class="nav-icon fas fa-dumbbell"></i>
-                          <p>Manajemen Kelas</p>
-                          <i class="fas fa-angle-left right"></i>
-                      </a>
 
-                      <ul class="nav nav-treeview">
-
-                          <li class="nav-item">
-                              <a href="{{ route('classes.index') }}"
-                                  class="nav-link {{ Request::is('dashboard/classes*') ? 'active' : '' }}  ps-5 ">
-                                  <i class="nav-icon fas fa-dumbbell"></i>
-                                  <p>Kelas</p>
-                              </a>
-                          </li>
-
-                          {{-- Tambahan: Instruktur --}}
-                          <li class="nav-item">
-                              <a href="{{ route('trainers.index') }}"
-                                  class="nav-link {{ Request::is('dashboard/trainers*') ? 'active' : '' }} ps-5">
-                                  <i class="fas fa-user nav-icon"></i>
-                                  <p>Instruktur</p>
-                              </a>
-                          </li>
-
-                          {{-- Tambahan: Kategori Kelas --}}
-                          <li class="nav-item">
-                              <a href="{{ route('class-categories.index') }}"
-                                  class="nav-link {{ Request::is('dashboard/class-categories*') ? 'active' : '' }} ps-5">
-                                  <i class="fas fa-list-alt nav-icon"></i>
-                                  <p>Kategori Kelas</p>
-                              </a>
-                          </li>
-
-                          {{-- Tambahan: Booking Kelas --}}
-                          <li class="nav-item">
-                              <a href="{{ route('class-bookings.index') }}"
-                                  class="nav-link {{ Request::is('dashboard/class-bookings*') ? 'active' : '' }} ps-5">
-                                  <i class="fas fa-calendar-check nav-icon"></i>
-                                  <p>Booking Kelas</p>
-                              </a>
-                          </li>
-
-                      </ul>
-                  </li>
-
-                  @if ($role == 'admin' || $role == 'super_admin')
+                  @if ($role == 'guest' || $role == 'member')
                       <li class="nav-item">
-                          <a href="{{ route('members.index') }}"
-                              class="nav-link  {{ Request::is('dashboard/memberships*') ? '' : (Request::is('dashboard/members*') ? 'active' : '') }}">
-                              <i class="nav-icon fas fa-user-friends"></i>
-                              <p>
-                                  Anggota (Member)
-                              </p>
+                          <a href="{{ route('classes.index') }}"
+                              class="nav-link {{ Request::is('dashboard/classes*') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-dumbbell"></i>
+                              <p>Kelas</p>
                           </a>
                       </li>
+
+                      {{-- Tambahan: Instruktur --}}
+                      <li class="nav-item">
+                          <a href="{{ route('trainers.index') }}"
+                              class="nav-link {{ Request::is('dashboard/trainers*') ? 'active' : '' }}">
+                              <i class="fas fa-user nav-icon"></i>
+                              <p>Instruktur</p>
+                          </a>
+                      </li>
+                  @endif
+                  @if ($role != 'trainer')
                       <li class="nav-item">
                           <a href="{{ route('memberships.index') }}"
                               class="nav-link {{ Request::is('dashboard/memberships*') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-tags"></i>
                               <p>
                                   Paket Membership
+                              </p>
+                          </a>
+                      </li>
+                  @endif
+
+                  @if ($role == 'admin' || $role == 'super_admin')
+                      <li class="nav-item
+                        @if (Request::is('dashboard/classes*') |
+                                Request::is('dashboard/trainers*') |
+                                Request::is('dashboard/class-categories*') |
+                                Request::is('dashboard/class-bookings*')) menu-open @endif">
+                          <a href="#"
+                              class="nav-link
+                            @if (Request::is('dashboard/classes*') |
+                                    Request::is('dashboard/trainers*') |
+                                    Request::is('dashboard/class-categories*') |
+                                    Request::is('dashboard/class-bookings*')) active @endif">
+                              <i class="nav-icon fas fa-dumbbell"></i>
+                              <p>Manajemen Kelas</p>
+                              <i class="fas fa-angle-left right"></i>
+                          </a>
+
+                          <ul class="nav nav-treeview">
+
+                              <li class="nav-item">
+                                  <a href="{{ route('classes.index') }}"
+                                      class="nav-link {{ Request::is('dashboard/classes*') ? 'active' : '' }}  ps-5 ">
+                                      <i class="nav-icon fas fa-dumbbell"></i>
+                                      <p>Kelas</p>
+                                  </a>
+                              </li>
+
+                              {{-- Tambahan: Instruktur --}}
+                              <li class="nav-item">
+                                  <a href="{{ route('trainers.index') }}"
+                                      class="nav-link {{ Request::is('dashboard/trainers*') ? 'active' : '' }} ps-5">
+                                      <i class="fas fa-user nav-icon"></i>
+                                      <p>Instruktur</p>
+                                  </a>
+                              </li>
+
+                              {{-- Tambahan: Kategori Kelas --}}
+                              <li class="nav-item">
+                                  <a href="{{ route('class-categories.index') }}"
+                                      class="nav-link {{ Request::is('dashboard/class-categories*') ? 'active' : '' }} ps-5">
+                                      <i class="fas fa-list-alt nav-icon"></i>
+                                      <p>Kategori Kelas</p>
+                                  </a>
+                              </li>
+
+                              {{-- Tambahan: Booking Kelas --}}
+                              <li class="nav-item">
+                                  <a href="{{ route('class-bookings.index') }}"
+                                      class="nav-link {{ Request::is('dashboard/class-bookings*') ? 'active' : '' }} ps-5">
+                                      <i class="fas fa-calendar-check nav-icon"></i>
+                                      <p>Booking Kelas</p>
+                                  </a>
+                              </li>
+
+                          </ul>
+                      </li>
+                      <li class="nav-item">
+                          <a href="{{ route('members.index') }}"
+                              class="nav-link  {{ Request::is('dashboard/memberships*') ? '' : (Request::is('dashboard/members*') ? 'active' : '') }}">
+                              <i class="nav-icon fas fa-user-friends"></i>
+                              <p>
+                                  Anggota (Member)
                               </p>
                           </a>
                       </li>
@@ -229,17 +252,6 @@
                           </a>
                       </li>
                   @endif
-
-                  {{-- <li class="nav-header">User Setting</li>
-                  <li class="nav-item">
-                      <a href="#"
-                          class="nav-link {{ Request::is('dashboard/changePassword*') ? 'active' : '' }}">
-                          <i class="nav-icon fas fa-user-lock"></i>
-                          <p>
-                              Change Password
-                          </p>
-                      </a>
-                  </li> --}}
               </ul>
           </nav>
           <!-- /.sidebar-menu -->

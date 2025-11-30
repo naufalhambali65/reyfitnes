@@ -108,67 +108,70 @@
         <div class="col-md-8">
 
             <!-- History Membership -->
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="fw-bold mb-0">
-                            <i class="fas fa-history me-1"></i> Riwayat Membership
-                        </h5>
-                        @if ($historyMemberships->first()->status != 'pending')
-                            @if (!$activeMembership)
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#addMembership">
-                                    <i class="fas fa-plus-circle me-1"></i> Tambah Membership
-                                </button>
+            @if ($historyMemberships->count() > 0)
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-bold mb-0">
+                                <i class="fas fa-history me-1"></i> Riwayat Membership
+                            </h5>
+                            @if ($historyMemberships->first()->status != 'pending')
+                                @if (!$activeMembership)
+                                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#addMembership">
+                                        <i class="fas fa-plus-circle me-1"></i> Tambah Membership
+                                    </button>
+                                @endif
                             @endif
-                        @endif
-                    </div>
+                        </div>
 
 
-                    <div class="table-responsive" style="max-height: 300px">
-                        <table class="table table-head-fixed table-bordered align-middle">
-                            <thead class="table-light">
-                                <tr class="text-center align-middle">
-                                    <th>Paket</th>
-                                    <th>Mulai</th>
-                                    <th>Berakhir</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($historyMemberships as $item)
+                        <div class="table-responsive" style="max-height: 300px">
+                            <table class="table table-head-fixed table-bordered align-middle">
+                                <thead class="table-light">
                                     <tr class="text-center align-middle">
-                                        <td>{{ $item->membership->name }}</td>
-                                        <td>{{ $item->start_date ? $item->start_date->translatedFormat('d M Y') : '-' }}
-                                        </td>
-                                        <td>{{ $item->end_date ? $item->end_date->translatedFormat('d M Y') : '-' }}</td>
-                                        <td>
-                                            @if ($item->status == 'active')
-                                                <span class="badge bg-success">Aktif</span>
-                                            @elseif($item->status == 'pending')
-                                                <span class="badge bg-warning text-dark">Menunggu</span>
-                                            @elseif($item->status == 'expired')
-                                                <span class="badge bg-secondary">Kadaluarsa</span>
-                                            @else
-                                                <span class="badge bg-danger">Dibatalkan</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('memberships.show', $item->membership->slug) }}">
-                                                <button class="btn btn-success">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            </a>
-                                        </td>
+                                        <th>Paket</th>
+                                        <th>Mulai</th>
+                                        <th>Berakhir</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    @foreach ($historyMemberships as $item)
+                                        <tr class="text-center align-middle">
+                                            <td>{{ $item->membership->name }}</td>
+                                            <td>{{ $item->start_date ? $item->start_date->translatedFormat('d M Y') : '-' }}
+                                            </td>
+                                            <td>{{ $item->end_date ? $item->end_date->translatedFormat('d M Y') : '-' }}
+                                            </td>
+                                            <td>
+                                                @if ($item->status == 'active')
+                                                    <span class="badge bg-success">Aktif</span>
+                                                @elseif($item->status == 'pending')
+                                                    <span class="badge bg-warning text-dark">Menunggu</span>
+                                                @elseif($item->status == 'expired')
+                                                    <span class="badge bg-secondary">Kadaluarsa</span>
+                                                @else
+                                                    <span class="badge bg-danger">Dibatalkan</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('memberships.show', $item->membership->slug) }}">
+                                                    <button class="btn btn-success">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <!-- Attendance History -->
             <div class="card shadow-sm mb-3">
@@ -248,7 +251,7 @@
                 </div>
             </div>
             <!-- Booking Class History -->
-            @if ($activeMembership->membership->gymClasses->count() > 0)
+            @if ($activeMembership && $activeMembership->membership->gymClasses->count() > 0)
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -422,62 +425,64 @@
         </div>
     </div>
 
-    <!-- Modal Booking Kelas -->
-    <div class="modal fade" id="classBookingModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    @if ($activeMembership && $activeMembership->membership->gymClasses->count() > 0)
+        <!-- Modal Booking Kelas -->
+        <div class="modal fade" id="classBookingModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
-                <form id="classBookingForm" method="POST">
-                    @csrf
-                    <input type="hidden" id="methodField">
-                    <input type="hidden" name="member_id" id="memberInput" value="{{ $member->id }}">
+                    <form id="classBookingForm" method="POST">
+                        @csrf
+                        <input type="hidden" id="methodField">
+                        <input type="hidden" name="member_id" id="memberInput" value="{{ $member->id }}">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTitle">Tambah Booking Kelas</h5>
-                    </div>
-
-                    <div class="modal-body">
-
-                        <!-- Pilih Hari -->
-                        <div class="mb-3">
-                            <label class="form-label">Hari</label>
-                            <select name="day" id="dayInput" class="form-control" required>
-                                <option value="">Pilih Hari</option>
-                                <option value="monday">Senin</option>
-                                <option value="tuesday">Selasa</option>
-                                <option value="wednesday">Rabu</option>
-                                <option value="thursday">Kamis</option>
-                                <option value="friday">Jumat</option>
-                                <option value="saturday">Sabtu</option>
-                                <option value="sunday">Minggu</option>
-                            </select>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitle">Tambah Booking Kelas</h5>
                         </div>
 
-                        <!-- Pilih Kelas -->
-                        <div class="mb-3">
-                            <label class="form-label">Kelas</label>
-                            <select name="gym_class_id" id="classInput" class="form-control" required>
-                                <option value="">Pilih Kelas</option>
+                        <div class="modal-body">
 
-                                @foreach ($classes as $class)
-                                    <option value="{{ $class->id }}">
-                                        {{ $class->name }} — {{ $class->category->name }}
-                                    </option>
-                                @endforeach
+                            <!-- Pilih Hari -->
+                            <div class="mb-3">
+                                <label class="form-label">Hari</label>
+                                <select name="day" id="dayInput" class="form-control" required>
+                                    <option value="">Pilih Hari</option>
+                                    <option value="monday">Senin</option>
+                                    <option value="tuesday">Selasa</option>
+                                    <option value="wednesday">Rabu</option>
+                                    <option value="thursday">Kamis</option>
+                                    <option value="friday">Jumat</option>
+                                    <option value="saturday">Sabtu</option>
+                                    <option value="sunday">Minggu</option>
+                                </select>
+                            </div>
 
-                            </select>
+                            <!-- Pilih Kelas -->
+                            <div class="mb-3">
+                                <label class="form-label">Kelas</label>
+                                <select name="gym_class_id" id="classInput" class="form-control" required>
+                                    <option value="">Pilih Kelas</option>
+
+                                    @foreach ($classes as $class)
+                                        <option value="{{ $class->id }}">
+                                            {{ $class->name }} — {{ $class->category->name }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+
                         </div>
 
-                    </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="saveBtn">Simpan</button>
+                        </div>
+                    </form>
 
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="saveBtn">Simpan</button>
-                    </div>
-                </form>
-
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
 @endsection
 @section('js')

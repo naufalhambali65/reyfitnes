@@ -302,7 +302,7 @@
                 </div>
             </div>
             <!-- Booking Class History -->
-            @if ($activeMembership->membership->gymClasses->count() > 0)
+            @if ($activeMembership && $activeMembership->membership->gymClasses->count() > 0)
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">

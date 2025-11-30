@@ -56,7 +56,12 @@ class ProfileController extends Controller implements HasMiddleware
                 ->orderByDesc('end_date')
                 ->first();
 
-            $classes = GymClass::where('membership_id', $activeMembership->membership_id)->latest()->get();
+            if($activeMembership) {
+                $classes = GymClass::where('membership_id', $activeMembership->membership_id)->latest()->get();
+            } else {
+                $classes = '';
+            }
+
 
             // Riwayat membership
             $historyMemberships = $member->memberMemberships()
