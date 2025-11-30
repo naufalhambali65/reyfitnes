@@ -7,7 +7,8 @@
     <meta name="keywords" content="Gym, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Rey Fitnes | Home</title>
+    <title>Rey Fitnes | Beranda</title>
+    <link rel="icon" type="image/png" href="{{ asset('/homepage_assets/img/logo/logo.png') }}">
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
@@ -60,6 +61,8 @@
     <script src="/homepage_assets/js/jquery.slicknav.js"></script>
     <script src="/homepage_assets/js/owl.carousel.min.js"></script>
     <script src="/homepage_assets/js/main.js"></script>
+
+    @yield('js')
 
     @if (session('success'))
         <script>

@@ -12,6 +12,7 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductCatalogController;
@@ -27,6 +28,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomepageController::class, 'index'])->name('home');
+Route::get('/about', [HomepageController::class, 'about'])->name('about');
+Route::get('/bmi', [HomepageController::class, 'bmi'])->name('bmi');
+Route::get('/contact', [HomepageController::class, 'contact'])->name('contact');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/register', [LoginController::class, 'signup'])->name('register');
@@ -69,6 +73,9 @@ Route::get('/dashboard/reports', [ReportController::class, 'index'])->name('repo
 
 Route::put('/dashboard/admins/{user}', [AdminController::class, 'toggleRole'])->name('admins.toggleRole');
 Route::resource('/dashboard/admins', AdminController::class);
+
+Route::put('/admin/messages/{message}', [MessageController::class, 'updateStatus'])->name('messages.updateStatus');
+Route::resource('/dashboard/messages', MessageController::class);
 
 Route::get('/dashboard/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::get('/dashboard/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');

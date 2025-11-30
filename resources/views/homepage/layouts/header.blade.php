@@ -1,55 +1,48 @@
-    <!-- Header Section Begin -->
-    <header class="header-section">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="logo">
-                        <a href="./index.html">
-                            <img src="/homepage_assets/img/logo/logo.png"
-                                style="width: 200px; background: rgba(243, 97, 0); border-radius:6px" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <nav class="nav-menu">
-                        <ul>
-                            <li class="active"><a href="./index.html">Home</a></li>
-                            <li><a href="./about-us.html">About Us</a></li>
-                            <li><a href="./class-details.html">Classes</a></li>
-                            <li><a href="./services.html">Services</a></li>
-                            <li><a href="./team.html">Our Team</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about-us.html">About us</a></li>
-                                    <li><a href="./class-timetable.html">Classes timetable</a></li>
-                                    <li><a href="./bmi-calculator.html">Bmi calculate</a></li>
-                                    <li><a href="./team.html">Our team</a></li>
-                                    <li><a href="./gallery.html">Gallery</a></li>
-                                    <li><a href="./blog.html">Our blog</a></li>
-                                    <li><a href="./404.html">404</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./contact.html">Contact</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3">
-                    <div class="top-option">
-                        <div class="to-search search-switch">
-                            <i class="fa fa-search"></i>
-                        </div>
-                        <div class="to-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                        </div>
-                    </div>
+<!-- Header Section Begin -->
+<header class="header-section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="logo">
+                    <a href="{{ route('home') }}">
+                        <img src="/homepage_assets/img/logo/logo.png"
+                            style="width: 200px; background: rgba(243, 97, 0); border-radius:6px" alt="ReyFitnes Logo">
+                    </a>
                 </div>
             </div>
-            <div class="canvas-open">
-                <i class="fa fa-bars"></i>
+            <div class="col-lg-8">
+                <nav class="nav-menu">
+                    <ul>
+                        <li class="{{ Request::is('/') ? 'active' : '' }}"><a href="{{ route('home') }}">Beranda</a>
+                        </li>
+                        <li class="{{ Request::is('about*') ? 'active' : '' }}"><a href="{{ route('about') }}">Tentang
+                                Kami</a></li>
+                        <li class="{{ Request::is('bmi*') ? 'active' : '' }}"><a href="{{ route('bmi') }}">Kalkulator
+                                BMI</a></li>
+                        <li class="{{ Request::is('contact*') ? 'active' : '' }}"><a
+                                href="{{ route('contact') }}">Kontak</a>
+                        </li>
+                        <li><a href="{{ route('login') }}">Masuk</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-2">
+                <div class="top-option">
+                    {{-- <div class="to-search search-switch">
+                        <i class="fa fa-search"></i>
+                    </div> --}}
+                    <div class="to-social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                    </div>
+                </div>
             </div>
         </div>
-    </header>
-    <!-- Header End -->
+        <div class="canvas-open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header End -->

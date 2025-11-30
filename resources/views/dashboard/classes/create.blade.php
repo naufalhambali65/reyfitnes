@@ -87,8 +87,8 @@
                                         </option>
                                     </select>
                                 </div>
-                                {{-- <div class="mb-3">
-                                    <label for="image" class="form-label">Foto Sampul</label>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Foto</label>
                                     <img class="img-preview img-fluid mb-3 col-sm-5">
                                     <input class="form-control @error('image') is-invalid @enderror" type="file"
                                         id="image" name="image" onchange="previewImage()">
@@ -97,7 +97,7 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                </div> --}}
+                                </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Deskripsi</label>
                                     <input id="description" type="hidden" name="description"
@@ -118,7 +118,7 @@
         </div>
     </div>
 @endsection
-{{-- @section('js')
+@section('js')
     <script>
         function previewImage() {
             const image = document.querySelector('#image');
@@ -133,4 +133,4 @@
             }
         }
     </script>
-@endsection --}}
+@endsection

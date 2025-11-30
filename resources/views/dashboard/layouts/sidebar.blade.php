@@ -216,19 +216,20 @@
                               </p>
                           </a>
                       </li>
+                      <li class="nav-item">
+                          <a href="{{ route('messages.index') }}"
+                              class="nav-link {{ Request::is('dashboard/messages*') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-envelope"></i>
+                              <p>
+                                  Pesan
+                                  {{-- @if ($newMessage)
+                                      <span class="badge badge-danger right">{{ $newMessage }}</span>
+                                  @endif --}}
+                              </p>
+                          </a>
+                      </li>
                   @endif
 
-                  {{-- <li class="nav-item">
-                      <a href="#" class="nav-link {{ Request::is('dashboard/messages*') ? 'active' : '' }}">
-                          <i class="nav-icon fas fa-envelope"></i>
-                          <p>
-                              Pesan
-                              @if ($newMessage)
-                                  <span class="badge badge-danger right">{{ $newMessage }}</span>
-                              @endif
-                          </p>
-                      </a>
-                  </li> --}}
                   {{-- <li class="nav-header">User Setting</li>
                   <li class="nav-item">
                       <a href="#"

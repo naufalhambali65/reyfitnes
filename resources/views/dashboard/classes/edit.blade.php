@@ -89,7 +89,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                {{-- <div class="mb-3">
+                                <div class="mb-3">
                                     <label for="image" class="form-label">Foto</label>
                                     @if ($class->image)
                                         <input type="hidden" name="oldImage" value="{{ $class->image }}">
@@ -105,7 +105,7 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                </div> --}}
+                                </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Deskripsi</label>
                                     <input id="description" type="hidden" name="description"
@@ -126,7 +126,7 @@
         </div>
     </div>
 @endsection
-{{-- @section('js')
+@section('js')
     <script>
         function previewImage() {
             const image = document.querySelector('#image');
@@ -141,4 +141,4 @@
             }
         }
     </script>
-@endsection --}}
+@endsection

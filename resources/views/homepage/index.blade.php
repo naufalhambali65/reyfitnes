@@ -1,6 +1,6 @@
 @extends('homepage.layouts.main')
 @section('container')
-<!-- Hero Section Begin -->
+    <!-- Hero Section Begin -->
     <section class="hero-section">
         <div class="hs-slider owl-carousel">
             <div class="hs-item set-bg" data-setbg="/homepage_assets/img/hero/hero-1.jpg">
@@ -39,8 +39,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <span>Why chose us?</span>
-                        <h2>PUSH YOUR LIMITS FORWARD</h2>
+                        <span>Mengapa memilih kami?</span>
+                        <h2>DORONG BATAS DIRIMU LEBIH JAUH</h2>
                     </div>
                 </div>
             </div>
@@ -48,38 +48,35 @@
                 <div class="col-lg-3 col-sm-6">
                     <div class="cs-item">
                         <span class="flaticon-034-stationary-bike"></span>
-                        <h4>Modern equipment</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            dolore facilisis.</p>
+                        <h4>Peralatan Modern</h4>
+                        <p>Kami menyediakan fasilitas terbaik dengan peralatan modern untuk mendukung latihan Anda.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="cs-item">
                         <span class="flaticon-033-juice"></span>
-                        <h4>Healthy nutrition plan</h4>
-                        <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel
-                            facilisis.</p>
+                        <h4>Panduan Nutrisi Sehat</h4>
+                        <p>Dapatkan rekomendasi nutrisi yang tepat agar hasil latihan Anda lebih maksimal.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="cs-item">
                         <span class="flaticon-002-dumbell"></span>
-                        <h4>Proffesponal training plan</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            dolore facilisis.</p>
+                        <h4>Program Latihan Profesional</h4>
+                        <p>Latihan dipandu oleh instruktur berpengalaman dengan program yang dirancang efektif.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-sm-6">
                     <div class="cs-item">
                         <span class="flaticon-014-heart-beat"></span>
-                        <h4>Unique to your needs</h4>
-                        <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel
-                            facilisis.</p>
+                        <h4>Disesuaikan Untuk Anda</h4>
+                        <p>Program dirancang sesuai kebutuhan dan tujuan kebugaran setiap anggota.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <!-- ChoseUs Section End -->
 
     <!-- Classes Section Begin -->
@@ -88,76 +85,36 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <span>Our Classes</span>
-                        <h2>WHAT WE CAN OFFER</h2>
+                        <span>Kelas Kami</span>
+                        <h2>APA YANG KAMI TAWARKAN</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="class-item">
-                        <div class="ci-pic">
-                            <img src="/homepage_assets/img/classes/class-1.jpg" alt="">
-                        </div>
-                        <div class="ci-text">
-                            <span>STRENGTH</span>
-                            <h5>Weightlifting</h5>
-                            <a href="#"><i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="class-item">
-                        <div class="ci-pic">
-                            <img src="/homepage_assets/img/classes/class-2.jpg" alt="">
-                        </div>
-                        <div class="ci-text">
-                            <span>Cardio</span>
-                            <h5>Indoor cycling</h5>
-                            <a href="#"><i class="fa fa-angle-right"></i></a>
+                @foreach ($gymClasses as $class)
+                    <div class="col-lg-4 col-md-6">
+                        <div class="class-item">
+                            <div class="ci-pic">
+                                <img src="{{ asset('storage/' . $class->image) }}" alt="{{ $class->name }}"
+                                    style="
+                                    width: 100%;
+                                    height: 400px;
+                                    object-fit: cover;
+                                ">
+                            </div>
+                            <div class="ci-text">
+                                <span>{{ $class->category->name }}</span>
+                                <h5>{{ $class->name }}</h5>
+                                {{-- <a href="#"><i class="fa fa-angle-right"></i></a> --}}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="class-item">
-                        <div class="ci-pic">
-                            <img src="/homepage_assets/img/classes/class-3.jpg" alt="">
-                        </div>
-                        <div class="ci-text">
-                            <span>STRENGTH</span>
-                            <h5>Kettlebell power</h5>
-                            <a href="#"><i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="class-item">
-                        <div class="ci-pic">
-                            <img src="/homepage_assets/img/classes/class-4.jpg" alt="">
-                        </div>
-                        <div class="ci-text">
-                            <span>Cardio</span>
-                            <h4>Indoor cycling</h4>
-                            <a href="#"><i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="class-item">
-                        <div class="ci-pic">
-                            <img src="/homepage_assets/img/classes/class-5.jpg" alt="">
-                        </div>
-                        <div class="ci-text">
-                            <span>Training</span>
-                            <h4>Boxing</h4>
-                            <a href="#"><i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
-    <!-- ChoseUs Section End -->
+
+    <!-- Classes Section End -->
 
     <!-- Banner Section Begin -->
     <section class="banner-section set-bg" data-setbg="/homepage_assets/img/banner-bg.jpg">
@@ -165,9 +122,11 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="bs-text">
-                        <h2>registration now to get more deals</h2>
-                        <div class="bt-tips">Where health, beauty and fitness meet.</div>
-                        <a href="#" class="primary-btn  btn-normal">Appointment</a>
+                        <h2>Registrasi Sekarang!</h2>
+                        <div class="bt-tips">Dimana kesehatan, keindahan, dan kebugaran bertemu.</div>
+                        <a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                                "
+                            class="primary-btn btn-normal" target="_blank">Buat Janji</a>
                     </div>
                 </div>
             </div>
@@ -181,69 +140,36 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <span>Our Plan</span>
-                        <h2>Choose your pricing plan</h2>
+                        <span>Paket Membership</span>
+                        <h2>Pilih Paket Membership Anda!</h2>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-8">
-                    <div class="ps-item">
-                        <h3>Class drop-in</h3>
-                        <div class="pi-price">
-                            <h2>$ 39.0</h2>
-                            <span>SINGLE CLASS</span>
+
+                @foreach ($memberships as $membership)
+                    <div class="col-lg-4 col-md-8">
+                        <div class="ps-item">
+                            <h3 class="mb-3">{{ $membership->name }}</h3>
+
+                            <div class=" mb-2">
+                                <h3 style="color: rgba(243, 97, 0);">
+                                    {{ $membership->price_formatted }}
+                                </h3>
+                            </div>
+
+                            <div class=" mb-2">
+                                {!! $membership->features !!}
+                            </div>
+
+                            <a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+"
+                                class="primary-btn pricing-btn w-100 text-center" target="_blank">
+                                Daftar Sekarang!
+                            </a>
                         </div>
-                        <ul>
-                            <li>Free riding</li>
-                            <li>Unlimited equipments</li>
-                            <li>Personal trainer</li>
-                            <li>Weight losing classes</li>
-                            <li>Month to mouth</li>
-                            <li>No time restriction</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Enroll now</a>
-                        <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-8">
-                    <div class="ps-item">
-                        <h3>12 Month unlimited</h3>
-                        <div class="pi-price">
-                            <h2>$ 99.0</h2>
-                            <span>SINGLE CLASS</span>
-                        </div>
-                        <ul>
-                            <li>Free riding</li>
-                            <li>Unlimited equipments</li>
-                            <li>Personal trainer</li>
-                            <li>Weight losing classes</li>
-                            <li>Month to mouth</li>
-                            <li>No time restriction</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Enroll now</a>
-                        <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-8">
-                    <div class="ps-item">
-                        <h3>6 Month unlimited</h3>
-                        <div class="pi-price">
-                            <h2>$ 59.0</h2>
-                            <span>SINGLE CLASS</span>
-                        </div>
-                        <ul>
-                            <li>Free riding</li>
-                            <li>Unlimited equipments</li>
-                            <li>Personal trainer</li>
-                            <li>Weight losing classes</li>
-                            <li>Month to mouth</li>
-                            <li>No time restriction</li>
-                        </ul>
-                        <a href="#" class="primary-btn pricing-btn">Enroll now</a>
-                        <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -253,23 +179,29 @@
     <div class="gallery-section">
         <div class="gallery">
             <div class="grid-sizer"></div>
-            <div class="gs-item grid-wide set-bg" data-setbg="/homepage_assets/img/gallery/gallery-1.jpg">
-                <a href="/homepage_assets/img/gallery/gallery-1.jpg" class="thumb-icon image-popup"><i class="fa fa-picture-o"></i></a>
+            <div class="gs-item grid-wide set-bg" data-setbg="/homepage_assets/img/reyfitnes/01.jpg">
+                <a href="/homepage_assets/img/reyfitnes/01.jpg" class="thumb-icon image-popup"><i
+                        class="fa fa-picture-o"></i></a>
             </div>
             <div class="gs-item set-bg" data-setbg="/homepage_assets/img/gallery/gallery-2.jpg">
-                <a href="/homepage_assets/img/gallery/gallery-2.jpg" class="thumb-icon image-popup"><i class="fa fa-picture-o"></i></a>
+                <a href="/homepage_assets/img/gallery/gallery-2.jpg" class="thumb-icon image-popup"><i
+                        class="fa fa-picture-o"></i></a>
             </div>
             <div class="gs-item set-bg" data-setbg="/homepage_assets/img/gallery/gallery-3.jpg">
-                <a href="/homepage_assets/img/gallery/gallery-3.jpg" class="thumb-icon image-popup"><i class="fa fa-picture-o"></i></a>
+                <a href="/homepage_assets/img/gallery/gallery-3.jpg" class="thumb-icon image-popup"><i
+                        class="fa fa-picture-o"></i></a>
             </div>
             <div class="gs-item set-bg" data-setbg="/homepage_assets/img/gallery/gallery-4.jpg">
-                <a href="/homepage_assets/img/gallery/gallery-4.jpg" class="thumb-icon image-popup"><i class="fa fa-picture-o"></i></a>
+                <a href="/homepage_assets/img/gallery/gallery-4.jpg" class="thumb-icon image-popup"><i
+                        class="fa fa-picture-o"></i></a>
             </div>
             <div class="gs-item set-bg" data-setbg="/homepage_assets/img/gallery/gallery-5.jpg">
-                <a href="/homepage_assets/img/gallery/gallery-5.jpg" class="thumb-icon image-popup"><i class="fa fa-picture-o"></i></a>
+                <a href="/homepage_assets/img/gallery/gallery-5.jpg" class="thumb-icon image-popup"><i
+                        class="fa fa-picture-o"></i></a>
             </div>
             <div class="gs-item grid-wide set-bg" data-setbg="/homepage_assets/img/gallery/gallery-6.jpg">
-                <a href="/homepage_assets/img/gallery/gallery-6.jpg" class="thumb-icon image-popup"><i class="fa fa-picture-o"></i></a>
+                <a href="/homepage_assets/img/gallery/gallery-6.jpg" class="thumb-icon image-popup"><i
+                        class="fa fa-picture-o"></i></a>
             </div>
         </div>
     </div>
@@ -282,63 +214,27 @@
                 <div class="col-lg-12">
                     <div class="team-title">
                         <div class="section-title">
-                            <span>Our Team</span>
-                            <h2>TRAIN WITH EXPERTS</h2>
+                            <span>INSTRUKTUR KAMI</span>
+                            <h2>BERLATIH DENGAN INSTRUKTUR PROFESIONAL</h2>
                         </div>
-                        <a href="#" class="primary-btn btn-normal appoinment-btn">appointment</a>
+                        <a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                            "
+                            class="primary-btn btn-normal appoinment-btn">BUAT JANJI</a>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="ts-slider owl-carousel">
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="/homepage_assets/img/team/team-1.jpg">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
+                <div class="ts-slider owl-carousel center">
+                    @foreach ($trainers as $trainer)
+                        <div class="col-lg-4">
+                            <div class="ts-item set-bg" data-setbg="{{ asset('storage/' . $trainer->user->image) }}">
+                                <div class="ts_text">
+                                    <h4>{{ ucwords($trainer->user->name) }}</h4>
+                                    <span style="text-white">Instruktur Gym</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="/homepage_assets/img/team/team-2.jpg">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="/homepage_assets/img/team/team-3.jpg">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="/homepage_assets/img/team/team-4.jpg">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="/homepage_assets/img/team/team-5.jpg">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="/homepage_assets/img/team/team-6.jpg">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -352,22 +248,35 @@
                 <div class="col-md-4">
                     <div class="gt-text">
                         <i class="fa fa-map-marker"></i>
-                        <p>333 Middle Winchendon Rd, Rindge,<br/> NH 03461</p>
+                        <p>Komplek Bundaran Palupi Permai,
+                            <br>
+                            Jl. I Gusti Ngurah Rai No.5, RW.6,
+                            <br>
+                            Pengawu, Kec. Tatanga, Kota Palu,
+                            <br>
+                            Sulawesi Tengah 94222
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="gt-text">
                         <i class="fa fa-mobile"></i>
                         <ul>
-                            <li>125-711-811</li>
-                            <li>125-668-886</li>
+                            <li><a href="https://api.whatsapp.com/send?phone=6285185471994&text=Halo%2C%20saya%20ingin%20mendapatkan%20informasi%20mengenai%20membership%20gym.%20Boleh%20diinformasikan%20jenis%20paket%2C%20harga%2C%20dan%20manfaat%20tiap%20paketnya%3F%20Terima%20kasih.
+                                    "
+                                    target="_blank" style="text-decoration: none" class="text-white">+62
+                                    851-8547-1994</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="gt-text email">
                         <i class="fa fa-envelope"></i>
-                        <p>Support.gymcenter@gmail.com</p>
+                        <p>
+                            <a href="mailto:reyfitnes.cs@gmail.com" style="text-decoration: none"
+                                class="text-white">reyfitnes.cs@gmail.com</a>
+                        </p>
+
                     </div>
                 </div>
             </div>

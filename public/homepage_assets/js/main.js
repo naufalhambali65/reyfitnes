@@ -7,14 +7,13 @@
   Created: Colorlib
 ---------------------------------------------------------  */
 
-'use strict';
+"use strict";
 
 (function ($) {
-
     /*------------------
         Preloader
     --------------------*/
-    $(window).on('load', function () {
+    $(window).on("load", function () {
         $(".loader").fadeOut();
         $("#preloder").delay(200).fadeOut("slow");
     });
@@ -22,46 +21,46 @@
     /*------------------
         Background Set
     --------------------*/
-    $('.set-bg').each(function () {
-        var bg = $(this).data('setbg');
-        $(this).css('background-image', 'url(' + bg + ')');
+    $(".set-bg").each(function () {
+        var bg = $(this).data("setbg");
+        $(this).css("background-image", "url(" + bg + ")");
     });
 
     //Canvas Menu
-    $(".canvas-open").on('click', function () {
+    $(".canvas-open").on("click", function () {
         $(".offcanvas-menu-wrapper").addClass("show-offcanvas-menu-wrapper");
         $(".offcanvas-menu-overlay").addClass("active");
     });
 
-    $(".canvas-close, .offcanvas-menu-overlay").on('click', function () {
+    $(".canvas-close, .offcanvas-menu-overlay").on("click", function () {
         $(".offcanvas-menu-wrapper").removeClass("show-offcanvas-menu-wrapper");
         $(".offcanvas-menu-overlay").removeClass("active");
     });
 
     // Search model
-    $('.search-switch').on('click', function () {
-        $('.search-model').fadeIn(400);
+    $(".search-switch").on("click", function () {
+        $(".search-model").fadeIn(400);
     });
 
-    $('.search-close-switch').on('click', function () {
-        $('.search-model').fadeOut(400, function () {
-            $('#search-input').val('');
+    $(".search-close-switch").on("click", function () {
+        $(".search-model").fadeOut(400, function () {
+            $("#search-input").val("");
         });
     });
 
     //Masonary
-    $('.gallery').masonry({
-        itemSelector: '.gs-item',
-        columnWidth: '.grid-sizer',
-        gutter: 10
+    $(".gallery").masonry({
+        itemSelector: ".gs-item",
+        columnWidth: ".grid-sizer",
+        gutter: 10,
     });
 
     /*------------------
 		Navigation
 	--------------------*/
     $(".mobile-menu").slicknav({
-        prependTo: '#mobile-menu-wrap',
-        allowParentLinks: true
+        prependTo: "#mobile-menu-wrap",
+        allowParentLinks: true,
     });
 
     /*------------------
@@ -74,22 +73,26 @@
         nav: true,
         items: 1,
         dots: false,
-        animateOut: 'fadeOut',
-        animateIn: 'fadeIn',
-        navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+        animateOut: "fadeOut",
+        animateIn: "fadeIn",
+        navText: [
+            '<i class="fa fa-angle-left"></i>',
+            '<i class="fa fa-angle-right"></i>',
+        ],
         smartSpeed: 1200,
         autoHeight: false,
-        autoplay: false
+        autoplay: false,
     });
 
     /*------------------
         Team Slider
     --------------------*/
     $(".ts-slider").owlCarousel({
-        loop: true,
+        loop: false,
         margin: 0,
         items: 3,
         dots: true,
+        center: true,
         dotsEach: 2,
         smartSpeed: 1200,
         autoHeight: false,
@@ -103,8 +106,8 @@
             },
             992: {
                 items: 3,
-            }
-        }
+            },
+        },
     });
 
     /*------------------
@@ -116,59 +119,61 @@
         items: 1,
         dots: false,
         nav: true,
-        navText: ['<i class="fa fa-angle-left"></i>', '<i class="fa fa-angle-right"></i>'],
+        navText: [
+            '<i class="fa fa-angle-left"></i>',
+            '<i class="fa fa-angle-right"></i>',
+        ],
         smartSpeed: 1200,
         autoHeight: false,
-        autoplay: true
+        autoplay: true,
     });
 
     /*------------------
         Image Popup
     --------------------*/
-    $('.image-popup').magnificPopup({
-        type: 'image'
+    $(".image-popup").magnificPopup({
+        type: "image",
     });
 
     /*------------------
         Video Popup
     --------------------*/
-    $('.video-popup').magnificPopup({
-        type: 'iframe'
+    $(".video-popup").magnificPopup({
+        type: "iframe",
     });
 
     /*------------------
         Barfiller
     --------------------*/
-    $('#bar1').barfiller({
-        barColor: '#ffffff',
-        duration: 2000
+    $("#bar1").barfiller({
+        barColor: "#ffffff",
+        duration: 2000,
     });
-    $('#bar2').barfiller({
-        barColor: '#ffffff',
-        duration: 2000
+    $("#bar2").barfiller({
+        barColor: "#ffffff",
+        duration: 2000,
     });
-    $('#bar3').barfiller({
-        barColor: '#ffffff',
-        duration: 2000
+    $("#bar3").barfiller({
+        barColor: "#ffffff",
+        duration: 2000,
     });
 
-    $('.table-controls ul li').on('click', function () {
-        var tsfilter = $(this).data('tsfilter');
-        $('.table-controls ul li').removeClass('active');
-        $(this).addClass('active');
+    $(".table-controls ul li").on("click", function () {
+        var tsfilter = $(this).data("tsfilter");
+        $(".table-controls ul li").removeClass("active");
+        $(this).addClass("active");
 
-        if (tsfilter == 'all') {
-            $('.class-timetable').removeClass('filtering');
-            $('.ts-meta').removeClass('show');
+        if (tsfilter == "all") {
+            $(".class-timetable").removeClass("filtering");
+            $(".ts-meta").removeClass("show");
         } else {
-            $('.class-timetable').addClass('filtering');
+            $(".class-timetable").addClass("filtering");
         }
-        $('.ts-meta').each(function () {
-            $(this).removeClass('show');
-            if ($(this).data('tsmeta') == tsfilter) {
-                $(this).addClass('show');
+        $(".ts-meta").each(function () {
+            $(this).removeClass("show");
+            if ($(this).data("tsmeta") == tsfilter) {
+                $(this).addClass("show");
             }
         });
     });
-
 })(jQuery);

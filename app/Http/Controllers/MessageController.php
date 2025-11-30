@@ -12,8 +12,8 @@ class MessageController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            'auth',
-            new Middleware('role:super_admin,admin'),
+            new Middleware('auth', except: ['store']),
+            new Middleware('role:super_admin,admin', except: ['store']),
         ];
     }
     /**
@@ -21,7 +21,10 @@ class MessageController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        //
+        $title = 'Daftar Pesan';
+        // $newMessage = Message::where('is_read', 0)->count();
+        $messages = Message::latest()->get();
+        return view('dashboard.messages.index', compact('title', 'messages'));
     }
 
     /**
@@ -37,7 +40,17 @@ class MessageController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        // dd($request);
+        $validatedData = $request->validate([
+            'name' => 'required|max:50',
+            'email' => 'required|email:dns',
+            'subject' => 'required|max:255',
+            'message' => 'required|string'
+        ]);
+
+
+        Message::create($validatedData);
+        return redirect()->back()->with('success', 'Pesan Berhasil Dibuat.');
     }
 
     /**
@@ -45,7 +58,13 @@ class MessageController extends Controller implements HasMiddleware
      */
     public function show(Message $message)
     {
-        //
+        $title = 'Detail Pesan';
+        if($message->is_read == 0)
+        {
+            $message->update(['is_read' => 1]);
+        }
+        // $newMessage = Message::where('is_read', 0)->count();
+        return view('dashboard.messages.show', compact('title', 'message'));
     }
 
     /**
@@ -69,6 +88,17 @@ class MessageController extends Controller implements HasMiddleware
      */
     public function destroy(Message $message)
     {
-        //
+        Message::destroy($message->id);
+        return redirect(route('messages.index'))->with('success', 'Pesan berhasil dihapus.');
+    }
+     public function updateStatus(Message $message)
+    {
+        if($message->is_read == 0 ) {
+            $is_read = 1;
+        } else {
+            $is_read = 0;
+        }
+        $message->update(['is_read' => $is_read]);
+        return redirect( route('messages.index') )->with('success', 'Pesan ditandai sebagai: '. ($is_read == 0 ? 'Belum Dibaca' : 'Sudah Dibaca'));
     }
 }
