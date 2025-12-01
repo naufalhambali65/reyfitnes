@@ -88,6 +88,22 @@
             margin: 0 auto;
             /* center */
         }
+
+        /* Fix Sidebar Can't Scroll on Tablet */
+        .main-sidebar,
+        .sidebar {
+            height: 100vh !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+        }
+
+        /* Fix for tablet landscape & portrait */
+        @media (max-width: 991.98px) {
+            .main-sidebar {
+                position: fixed !important;
+                overflow-y: auto !important;
+            }
+        }
     </style>
 
 
