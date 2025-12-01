@@ -90,7 +90,7 @@ class AttendanceController extends Controller implements HasMiddleware
                     'membership_id' => $membership->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'photo' => $user->image ? asset('storage/public/' . $user->image)  : '/homepage_assets/img/default-profil.png',
+                    'photo' => $user->image ? asset('storage/' . $user->image)  : '/homepage_assets/img/default-profil.png',
                     'membership' => $membership->membership->name,
                     'membership_end_date' => $membership->end_date,
                     'gender' => $user->gender = 'male' ? 'Laki-Laki' : 'Perempuan',

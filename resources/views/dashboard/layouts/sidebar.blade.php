@@ -11,7 +11,7 @@
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
               <div class="image">
                   @if (auth()->user()->image)
-                      <img src="{{ asset('storage/public/' . auth()->user()->image) }}" alt="{{ auth()->user()->name }}"
+                      <img src="{{ asset('storage/' . auth()->user()->image) }}" alt="{{ auth()->user()->name }}"
                           class="img-circle elevation-2" style="width: 35px; height: 35px; object-fit: cover;">
                   @else
                       <img src="/homepage_assets/img/default-profil.png" class="img-circle elevation-2"
