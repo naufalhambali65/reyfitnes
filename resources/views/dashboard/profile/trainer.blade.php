@@ -29,7 +29,7 @@
                 <h5 class="fw-bold mb-3"><i class="fas fa-user me-1"></i> Profil Instruktur</h5>
                 <div class="text-center">
 
-                    <img src="{{ $trainer->user->image ? asset('storage/' . $trainer->user->image) : '/homepage_assets/img/default-profil.png' }}"
+                    <img src="{{ $trainer->user->image ? asset('public/storage/' . $trainer->user->image) : '/homepage_assets/img/default-profil.png' }}"
                         class="img-fluid rounded mb-3" style="max-width: 180px; height: auto; object-fit: cover;">
 
                     <h4 class="fw-bold mb-0">{{ ucwords($trainer->user->name) }}</h4>

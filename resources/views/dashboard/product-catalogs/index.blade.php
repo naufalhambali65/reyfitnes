@@ -47,8 +47,9 @@
 
                                     <div style="width:100px;">
                                         @if ($product->image)
-                                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                                                class="img-fluid rounded" style="height:80px;object-fit:cover;width:100%;">
+                                            <img src="{{ asset('public/storage/' . $product->image) }}"
+                                                alt="{{ $product->name }}" class="img-fluid rounded"
+                                                style="height:80px;object-fit:cover;width:100%;">
                                         @else
                                             <div class="bg-light d-flex align-items-center justify-content-center"
                                                 style="height:80px;width:100%;">No image</div>
