@@ -135,7 +135,7 @@
                                     @else
                                         <img class="img-preview img-fluid mb-3 col-sm-5">
                                     @endif
-                                    <input type="hidden" name="oldImage">
+                                    <input type="hidden" name="oldImage" value="{{ $user->image }}">
                                     <input class="form-control @error('image') is-invalid @enderror" type="file"
                                         id="image" name="image" onchange="previewImage()">
                                     @error('image')
