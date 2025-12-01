@@ -47,7 +47,7 @@
 
                                     <div style="width:100px;">
                                         @if ($product->image)
-                                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                            <img src="{{ asset('storage/public/' . $product->image) }}" alt="{{ $product->name }}"
                                                 class="img-fluid rounded" style="height:80px;object-fit:cover;width:100%;">
                                         @else
                                             <div class="bg-light d-flex align-items-center justify-content-center"
