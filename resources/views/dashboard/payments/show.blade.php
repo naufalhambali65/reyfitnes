@@ -184,7 +184,7 @@
                             </h5>
                             <div class="row">
                                 @if ($payment->payment_proof)
-                                    <img src="{{ asset('public/storage/' . $payment->payment_proof) }}"
+                                    <img src="{{ asset('storage/app/public/' . $payment->payment_proof) }}"
                                         class="img-preview img-fluid mb-3 col-sm-5 d-block" style="object-fit: cover;">
                                 @else
                                     <form action="{{ route('payments.updatePaymentProof', $payment->id) }}" method="POST"

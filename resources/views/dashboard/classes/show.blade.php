@@ -39,7 +39,7 @@
                 </h5>
 
                 <div class="text-center">
-                    <img src="{{ $class->trainer->user->image ? asset('public/storage/' . $class->trainer->user->image) : '/homepage_assets/img/default-profil.png' }}"
+                    <img src="{{ $class->trainer->user->image ? asset('storage/app/public/' . $class->trainer->user->image) : '/homepage_assets/img/default-profil.png' }}"
                         class="img-fluid rounded mb-3" style="max-width: 220px; object-fit: cover;">
 
                     <h4 class="fw-bold mb-0">{{ ucwords($class->trainer->user->name) }}</h4>
@@ -83,7 +83,7 @@
 
                 <div class="d-flex align-items-center">
                     <div class="text-center">
-                        <img src="{{ $class->image ? asset('public/storage/' . $class->image) : '/homepage_assets/img/default-profil.png' }}"
+                        <img src="{{ $class->image ? asset('storage/app/public/' . $class->image) : '/homepage_assets/img/default-profil.png' }}"
                             class="img-fluid rounded mb-3" style="max-width: 220px; object-fit: cover;">
                     </div>
                 </div>

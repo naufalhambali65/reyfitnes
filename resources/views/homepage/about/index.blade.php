@@ -141,7 +141,8 @@
                 <div class="ts-slider owl-carousel center">
                     @foreach ($trainers as $trainer)
                         <div class="col-lg-4">
-                            <div class="ts-item set-bg" data-setbg="{{ asset('public/storage/' . $trainer->user->image) }}">
+                            <div class="ts-item set-bg"
+                                data-setbg="{{ asset('storage/app/public/' . $trainer->user->image) }}">
                                 <div class="ts_text">
                                     <h4>{{ ucwords($trainer->user->name) }}</h4>
                                     <span style="text-white">Instruktur Gym</span>

@@ -96,7 +96,7 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="class-item">
                                 <div class="ci-pic">
-                                    <img src="{{ asset('public/storage/' . $class->image) }}" alt="{{ $class->name }}"
+                                    <img src="{{ asset('storage/app/public/' . $class->image) }}" alt="{{ $class->name }}"
                                         style="
                                     width: 100%;
                                     height: 400px;
@@ -233,7 +233,7 @@
                         @foreach ($trainers as $trainer)
                             <div class="col-lg-4">
                                 <div class="ts-item set-bg"
-                                    data-setbg="{{ asset('public/storage/' . $trainer->user->image) }}">
+                                    data-setbg="{{ asset('storage/app/public/' . $trainer->user->image) }}">
                                     <div class="ts_text">
                                         <h4>{{ ucwords($trainer->user->name) }}</h4>
                                         <span style="text-white">Instruktur Gym</span>
