@@ -262,6 +262,7 @@
                                     <option value="">-- Pilih Metode --</option>
                                     <option value="transfer">Transfer Bank</option>
                                     <option value="qris">QRIS</option>
+                                    <option value="cash">Tunai</option>
                                 </select>
                             </div>
 
@@ -607,7 +608,7 @@
             if (method === "transfer") {
                 bankSection.classList.remove("d-none");
                 notesSection.classList.remove("d-none");
-            } else if (method === "qris") {
+            } else if (method === "qris" || method === 'cash') {
                 bankSection.classList.add("d-none");
                 notesSection.classList.remove("d-none");
             } else {

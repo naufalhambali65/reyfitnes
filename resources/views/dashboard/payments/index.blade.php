@@ -90,8 +90,19 @@
 
                                         <td class="text-center align-middle">
                                             <span
-                                                class="badge px-3 py-2 {{ $payment->payment_method == 'transfer' ? 'bg-primary text-white' : 'bg-cyan text-white' }} ">
-                                                {{ $payment->payment_method == 'transfer' ? 'Transfer Bank' : 'Qris' }}
+                                                class="badge px-3 py-2 
+                                                @if ($payment->payment_method == 'transfer') bg-primary text-white
+                                                @elseif($payment->payment_method == 'qris') 
+                                                    bg-cyan text-white 
+                                                @elseif($payment->payment_method == 'cash') 
+                                                    bg-yellow text-white @endif">
+                                                @if ($payment->payment_method == 'transfer')
+                                                    Transfer Bank
+                                                @elseif($payment->payment_method == 'qris')
+                                                    Qris
+                                                @elseif($payment->payment_method == 'cash')
+                                                    Cash
+                                                @endif
                                             </span>
                                         </td>
 

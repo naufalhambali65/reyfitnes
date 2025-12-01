@@ -173,7 +173,7 @@ class MemberController extends Controller implements HasMiddleware
         $validatedPayment = $request->validate([
             'bank_id' => 'nullable',
             'amount'=> 'required',
-            'payment_method' => 'required|in:transfer,qris',
+            'payment_method' => 'required|in:transfer,qris,cash',
             'status' => 'nullable|in:pending,completed,failed',
             'notes' => 'string|nullable'
         ]);
@@ -241,7 +241,7 @@ class MemberController extends Controller implements HasMiddleware
         $validatedPayment = $request->validate([
             'bank_id' => 'nullable',
             'amount'=> 'required',
-            'payment_method' => 'required|in:transfer,qris',
+            'payment_method' => 'required|in:transfer,qris,cash',
             'status' => 'nullable|in:pending,completed,failed',
             'notes' => 'string|nullable'
         ]);
