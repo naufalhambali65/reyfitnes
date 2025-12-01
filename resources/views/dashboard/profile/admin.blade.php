@@ -24,7 +24,7 @@
             <div class="card shadow-sm p-3 mb-3">
                 <div class="text-center">
 
-                    <img src="{{ $user->image ? asset('storage/app/public/' . $user->image) : '/homepage_assets/img/default-profil.png' }}"
+                    <img src="{{ $user->image ? asset('public/storage/' . $user->image) : '/homepage_assets/img/default-profil.png' }}"
                         class="img-fluid rounded mb-3" style="max-width:160px; height:auto; object-fit:cover;">
 
                     <h4 class="fw-bold mb-0">{{ ucwords($user->name) }}</h4>

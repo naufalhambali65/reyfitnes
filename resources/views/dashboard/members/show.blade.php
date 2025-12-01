@@ -26,7 +26,7 @@
                 <h5 class="fw-bold mb-3"><i class="fas fa-user me-1"></i> Profil Anggota</h5>
                 <div class="text-center">
 
-                    <img src="{{ $user->image ? asset('storage/app/public/' . $user->image) : '/homepage_assets/img/default-profil.png' }}"
+                    <img src="{{ $user->image ? asset('public/storage/' . $user->image) : '/homepage_assets/img/default-profil.png' }}"
                         class="img-fluid rounded mb-3" style="max-width: 180px; height: auto; object-fit: cover;">
 
                     <h4 class="fw-bold mb-0">{{ ucwords($user->name) }}</h4>
@@ -85,14 +85,14 @@
 
                 @if ($activeMembership && $activeMembership->qr_code)
                     <div class="text-center">
-                        <img src="{{ asset('storage/app/public/' . $activeMembership->qr_code) }}" alt="QR Code Member"
+                        <img src="{{ asset('public/storage/' . $activeMembership->qr_code) }}" alt="QR Code Member"
                             class="img-fluid mb-2" style="max-width: 180px; height: auto;">
 
                         <p class="small text-muted mb-0 mt-2">
                             Scan QR ini untuk check-in di pintu masuk
                         </p>
                         <!-- Tombol Download QR -->
-                        <a href="{{ asset('storage/app/public/' . $activeMembership->qr_code) }}"
+                        <a href="{{ asset('public/storage/' . $activeMembership->qr_code) }}"
                             download="qr-member-{{ $member->id }}.png" class="btn btn-primary btn-sm mt-3">
                             <i class="fas fa-download me-1"></i> Download QR
                         </a>

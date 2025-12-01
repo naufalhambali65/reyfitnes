@@ -158,7 +158,7 @@
                                 <div class="form-group mb-3">
                                     <label for="image" class="form-label">Gambar Produk</label>
                                     @if ($product->image)
-                                        <img src="{{ asset('storage/app/public/' . $product->image) }}"
+                                        <img src="{{ asset('public/storage/' . $product->image) }}"
                                             class="img-preview img-fluid mb-3 col-sm-5 d-block"
                                             style="object-fit: cover;">
                                     @else

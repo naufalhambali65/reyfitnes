@@ -129,7 +129,7 @@
                                 <div class="form-group mb-3">
                                     <label for="image" class="form-label">Foto Wajah</label>
                                     @if ($user->image)
-                                        <img src="{{ asset('storage/app/public/' . $user->image) }}"
+                                        <img src="{{ asset('public/storage/' . $user->image) }}"
                                             class="img-preview img-fluid mb-3 col-sm-5 d-block"
                                             style="object-fit: cover;">
                                     @else
