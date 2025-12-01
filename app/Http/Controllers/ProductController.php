@@ -61,7 +61,7 @@ class ProductController extends Controller implements HasMiddleware
         'stock'       => 'required|integer|min:0',
         'min_stock'   => 'required|integer|min:0',
         'description' => 'nullable|string',
-        'image'       => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
+        'image'       => 'nullable|file|image|mimes:jpeg,png,jpg|max:5120',
         'status'      => 'required|in:available,unavailable',
     ]);
 
@@ -179,7 +179,7 @@ class ProductController extends Controller implements HasMiddleware
         'stock'       => 'required|integer|min:0',
         'min_stock'   => 'required|integer|min:0',
         'description' => 'nullable|string',
-        'image'       => 'nullable|file|image|mimes:jpeg,png,jpg|max:2048',
+        'image'       => 'nullable|file|image|mimes:jpeg,png,jpg|max:5120',
         'status'      => 'required|in:available,unavailable',
         ]);
 
